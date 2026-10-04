@@ -1,0 +1,38 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+src/assets/vid-awan-costa.mp4
+src/assets/vid-red-hare.mp4
+src/assets/vid-rewind-2.mp4
+src/assets/vid-soci.mp4
+
+# Env: salin .env.example menjadi .env
+.env
+.env.*
+!.env.example
+
+a.css
+blabla.md
+DESIGN.md
+ARSITEKTUR.md

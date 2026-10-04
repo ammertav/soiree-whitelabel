@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-obsidian: #000000;
+  --color-brand-crimson: #C41A20;
+  --color-brand-crimson-glow: #FF0000;
+
+  --color-ks-black: #000000;
+  --color-ks-red: #C41A20;
+  --color-ks-darkred: #800A0E;
+  --color-ks-silver: #C0C0C0;
+
+
+  /* --font-headline: "Public Sans", sans-serif;
+  --font-display: "Public Sans", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-label: "Space Grotesk", sans-serif;
+  --font-fraunces: "Fraunces", serif; */
+
+  --font-fraunces: 'Fraunces', serif;
+  --font-dm-sans: 'DM Sans', sans-serif;
+
+  --color-hijau: rgba(30, 106, 98, 1);
+  --color-hijau-butek: rgba(54, 96, 93, 1);
+  --color-hijau-tua: rgba(44, 78, 74, 1);
+  --color-kuning-tua: rgba(230, 169, 46, 1);
+  --color-kuning-muda: rgba(254, 190, 67, 1);
+  --color-cream-tua: rgba(244, 231, 207, 1);
+  --color-cream-tengah: rgba(238, 225, 201, 1);
+  --color-merah: rgba(168, 40, 25, 1);
+  --color-gray-custom: rgba(64, 72, 71, 1);
+  --color-ungu-heading: rgba(74, 42, 71, 1);
+  --color-pink-custom: rgba(240, 141, 162, 1);
+
+  --color-putih-butek: rgba(255, 248, 241, 1);
+
+  /* only tambahan color buat halaman line-up */
+  --color-merah-tua: rgba(134, 12, 4, 1);
+  --color-kuning-gelap: rgba(125, 87, 0, 1);
+  --color-cream-muda: rgba(250, 236, 212, 1);
+
+  --background-image-ks-gradient: linear-gradient(to right, #C41A20, #000000);
+  --background-image-ks-gradient-vertical: linear-gradient(to bottom, #C41A20, #000000);
+  --background-image-ks-glow: radial-gradient(circle, rgba(196, 26, 32, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+:root {
+  --bg-hijau: var(--color-hijau);
+  --text-hijau: var(--color-hijau);
+  --bg-hijau-butek: var(--color-hijau-butek);
+  --text-hijau-butek: var(--color-hijau-butek);
+  --bg-kuning-tua: var(--color-kuning-tua);
+  --text-kuning-tua: var(--color-kuning-tua);
+  --bg-kuning-muda: var(--color-kuning-muda);
+  --text-kuning-muda: var(--color-kuning-muda);
+  --bg-cream-tua: var(--color-cream-tua);
+  --text-cream-tua: var(--color-cream-tua);
+  --bg-cream-tengah: var(--color-cream-tengah);
+  --text-cream-tengah: var(--color-cream-tengah);
+  --bg-merah: var(--color-merah);
+  --text-merah: var(--color-merah);
+  --bg-gray-custom: var(--color-gray-custom);
+  --text-gray-custom: var(--color-gray-custom);
+  --bg-ungu-heading: var(--color-ungu-heading);
+  --text-ungu-heading: var(--color-ungu-heading);
+  --bg-pink-custom: var(--color-pink-custom);
+  --text-pink-custom: var(--color-pink-custom);
+  --bg-putih-butek: var(--color-putih-butek);
+  --text-putih-butek: var(--color-putih-butek);
+  --bg-merah-tua: var(--color-merah-tua);
+  --text-merah-tua: var(--color-merah-tua);
+  --bg-kuning-gelap: var(--color-kuning-gelap);
+  --text-kuning-gelap: var(--color-kuning-gelap);
+  --bg-cream-muda: var(--color-cream-muda);
+  --text-cream-muda: var(--color-cream-muda);
+}
+
+
+
+
+
+
+/* :root {
+  --font-family-fraunces: 'Fraunces', sans-serif;
+  --font-family-dm-sans: 'DM Sans', sans-serif;
+  /* --text-rgb-230-169-46: rgba(230, 169, 46, 1); */
+/* --text-rgb-244-231-207: rgba(244, 231, 207, 1); */
+/* --text-rgb-74-42-71: rgba(74, 42, 71, 1); */
+/* --text-rgb-238-225-201: rgba(238, 225, 201, 1); */
+/* --text-rgb-254-190-67: rgba(254, 190, 67, 1);
+  --text-rgb-240-141-162: rgba(240, 141, 162, 1); */
+/* --text-rgb-64-72-71: rgba(64, 72, 71, 1); */
+/* --text-rgb-250-236-212: rgba(250, 236, 212, 1); */
+/* --text-rgb-168-40-25: rgba(168, 40, 25, 1); */
+/* --text-rgb-30-106-98: rgba(30, 106, 98, 1); 
+} 
+
+*/
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: var(--font-body, "Inter", sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+@utility glass-panel {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+@utility neon-glow {
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.4);
+}
+
+@utility pulse-border {
+  animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+  0% {
+    border-color: rgba(196, 26, 32, 0.3);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+  }
+
+  50% {
+    border-color: rgba(255, 0, 0, 0.8);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+  }
+
+  100% {
+    border-color: rgba(196, 26, 32, 0.3);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+  }
+}
+
+@utility radial-halo {
+  background: radial-gradient(circle at center, rgba(196, 26, 32, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+@utility glow-hover {
+  &:hover {
+    box-shadow: 0 0 15px rgba(196, 26, 32, 0.5);
+    border-color: #C41A20;
+  }
+}
+
+@utility text-3d {
+  text-shadow: 2px 2px 0px #800A0E, 4px 4px 0px #000000;
+}

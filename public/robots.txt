@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /transaction/
+
+Sitemap: https://keenansociety.com/sitemap.xml
