@@ -8,6 +8,7 @@ const Transaction = lazy(() => import("./pages/Transaction"));
 const CobaMaps = lazy(() => import("./pages/CobaMaps"));
 const Pemesanan = lazy(() => import("./pages/Pemesanan"));
 const Lineup = lazy(() => import("./pages/Lineup"));
+const KatalogMerchandise = lazy(() => import("./pages/KatalogMerchandise"));
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/lineup" element={<Lineup />} />
+        <Route path="/katalog-merchandise" element={<KatalogMerchandise />} />
         <Route path="/events" element={<Event />} />
         <Route path="/event/:id/:slug" element={<EventDetail />} />
         <Route path="/transaction/:transactionId/:no_order" element={<Transaction />} />

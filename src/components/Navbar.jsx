@@ -13,9 +13,17 @@ export default function Navbar() {
     { name: "ROADMAP", path: "/roadmap" },
     { name: "RUNDOWN", path: "/rundown" },
     { name: "LINEUP", path: "/lineup" },
-    { name: "MERCHANDISE", path: "/merchandise" },
+    { name: "MERCHANDISE", path: "/katalog-merchandise" },
     { name: "CONTACT US", path: "/contact" },
   ];
+
+  const checkIsActive = (linkPath) => {
+    if (linkPath === "/") return location.pathname === "/";
+    if (linkPath === "/katalog-merchandise") {
+      return location.pathname.startsWith("/katalog-merchandise") || location.pathname.startsWith("/merchandise");
+    }
+    return location.pathname.startsWith(linkPath);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-hijau-butek border-b-[3px] border-ungu-heading">
@@ -40,10 +48,7 @@ export default function Navbar() {
         {/* Center: Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
           {navLinks.map((link) => {
-            const isActive =
-              link.path === "/"
-                ? location.pathname === "/"
-                : location.pathname.startsWith(link.path);
+            const isActive = checkIsActive(link.path);
 
             return (
               <Link
@@ -102,10 +107,7 @@ export default function Navbar() {
         <div className="sm:hidden bg-hijau-butek border-t border-ungu-heading px-6 py-6 space-y-4">
           <nav className="flex flex-col space-y-3">
             {navLinks.map((link) => {
-              const isActive =
-                link.path === "/"
-                  ? location.pathname === "/"
-                  : location.pathname.startsWith(link.path);
+              const isActive = checkIsActive(link.path);
 
               return (
                 <Link
