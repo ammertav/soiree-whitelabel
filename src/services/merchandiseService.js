@@ -146,10 +146,8 @@ export const SIZE_GUIDE_ROWS = [
   { size: "XXL", chest: "66 cm", length: "80 cm", sleeve: "66 cm" },
 ];
 
-/**
- * Format angka ke format mata uang Rupiah
- */
-export const formatRupiah = (val) => `Rp ${Number(val || 0).toLocaleString("id-ID")}`;
+import { formatRupiah } from "../utils";
+export { formatRupiah };
 
 /**
  * Ambil produk berdasarkan ID

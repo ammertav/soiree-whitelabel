@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { MdSearch, MdCalendarToday, MdLocationOn, MdArrowForward, MdChevronRight } from "react-icons/md";
 import Swal from "sweetalert2";
 import api from "../../api";
+import { extractCity, formatShortDate, formatTime } from "../../utils";
 import heroImg from '../../assets/hero.webp';
 
 function All() {
@@ -32,26 +33,7 @@ function All() {
       iconColor: type === "error" ? "#FF0000" : "#00FF00"
     });
 
-  const extractCity = (location) => {
-    if (!location) return "";
-    const parts = location.split(",");
-    return parts.length > 0 ? parts[parts.length - 1].trim() : location;
-  };
 
-  const formatShortDate = (str) => {
-    const date = new Date(str);
-    const options = { month: 'short', day: '2-digit', year: 'numeric' };
-    return date.toLocaleDateString('en-US', options).toUpperCase();
-  };
-
-  const formatTime = (str) => {
-    const date = new Date(str);
-    let hours = date.getHours();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    return `${hours} ${ampm}`;
-  };
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
