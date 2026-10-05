@@ -171,17 +171,6 @@ export default function Footer() {
             © 2027 Soirée Dansante. Hak cipta dilindungi undang-undang.
           </p>
 
-          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#2C4E4A]/80 border border-cream-tua/20 text-cream-tua/90 font-dm-sans font-medium text-xs shadow-xs">
-            {/* Lightning bolt icon */}
-            <svg
-              className="w-3.5 h-3.5 text-kuning-muda shrink-0"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-            </svg>
-            <span>Powered by TiketFestival Platform</span>
-          </div>
         </div>
       </div>
 
