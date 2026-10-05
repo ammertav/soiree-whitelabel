@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { MdMenu, MdClose } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import logoNavbar from "../assets/images/navbar/logo-navbar.png";
 import edanAvatar from "../assets/images/navbar/profile-678.png";
 
@@ -33,13 +33,13 @@ export default function Navbar() {
           <img
             src={logoNavbar}
             alt="Soirée Dansante Logo"
-            className="w-10 h-10 md:w-11 md:h-11 object-contain shrink-0 group-hover:scale-105 transition-transform"
+            className="hidden sm:block w-10 h-10 md:w-11 md:h-11 object-contain shrink-0 group-hover:scale-105 transition-transform"
           />
           <div className="flex flex-col">
-            <span className="font-fraunces text-lg md:text-xl font-bold text-cream-tua leading-tight tracking-tight">
+            <span className="font-fraunces text-2xl sm:text-lg md:text-xl font-bold text-cream-tua leading-tight tracking-tight">
               Soirée Dansante
             </span>
-            <span className="font-dm-sans text-[10px] md:text-[11px] font-bold text-cream-tua/80 tracking-[0.22em] uppercase leading-tight">
+            <span className="hidden sm:block font-dm-sans text-[10px] md:text-[11px] font-bold text-cream-tua/80 tracking-[0.22em] uppercase leading-tight">
               SEMARANG 2027
             </span>
           </div>
@@ -66,7 +66,7 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right: CTA Button & Avatar */}
+        {/* Right: CTA Button & Avatar (Desktop & Tablet) */}
         <div className="hidden sm:flex items-center gap-3 md:gap-4">
           <Link
             to="/pemesanan"
@@ -83,21 +83,22 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Hamburger & Avatar */}
-        <div className="flex sm:hidden items-center gap-3">
-          <div className="w-8 h-8 rounded-full border border-ungu-heading overflow-hidden shrink-0">
-            <img
-              src={edanAvatar}
-              alt="EDAN Badge"
-              className="w-full h-full object-cover"
-            />
-          </div>
+        {/* Mobile Hamburger Button (Matching Image 2: Yellow Rounded Square) */}
+        <div className="flex sm:hidden items-center">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-cream-tua text-3xl p-1 focus:outline-none"
+            className="w-11 h-11 rounded-2xl bg-kuning-tua border-2 border-ungu-heading shadow-[0_2px_0_var(--color-ungu-heading)] flex flex-col items-center justify-center gap-1.5 p-2.5 active:translate-y-0.5 hover:bg-kuning-muda transition-all cursor-pointer"
             aria-label="Toggle Navigation Menu"
           >
-            {isMobileMenuOpen ? <MdClose /> : <MdMenu />}
+            {isMobileMenuOpen ? (
+              <MdClose className="text-2xl text-ungu-heading" />
+            ) : (
+              <>
+                <span className="w-5 h-0.5 bg-ungu-heading rounded-full block" />
+                <span className="w-5 h-0.5 bg-ungu-heading rounded-full block" />
+                <span className="w-5 h-0.5 bg-ungu-heading rounded-full block" />
+              </>
+            )}
           </button>
         </div>
       </div>

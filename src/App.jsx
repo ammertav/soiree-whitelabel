@@ -9,12 +9,14 @@ const CobaMaps = lazy(() => import("./pages/CobaMaps"));
 const Pemesanan = lazy(() => import("./pages/Pemesanan"));
 const Lineup = lazy(() => import("./pages/Lineup"));
 const KatalogMerchandise = lazy(() => import("./pages/KatalogMerchandise"));
+const Roadmap = lazy(() => import("./pages/Roadmap"));
 
 function App() {
   return (
     <Suspense fallback={<div className="flex min-h-screen  bg-black text-[#FF0000] items-center justify-center font-headline uppercase tracking-widest animate-pulse">Initializing Interface...</div>}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/roadmap" element={<Roadmap />} />
         <Route path="/lineup" element={<Lineup />} />
         <Route path="/katalog-merchandise" element={<KatalogMerchandise />} />
         <Route path="/events" element={<Event />} />

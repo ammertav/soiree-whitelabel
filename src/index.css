@@ -123,6 +123,21 @@ body {
   overflow-x: hidden;
 }
 
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+@utility bg-stripe-timeline {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-cream-terang),
+    var(--color-cream-terang) 6px,
+    rgba(74, 42, 71, 0.16) 6px,
+    rgba(74, 42, 71, 0.16) 12px
+  );
+}
+
 @utility glass-panel {
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(12px);
