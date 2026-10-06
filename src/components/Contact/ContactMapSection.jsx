@@ -2,6 +2,7 @@ import { FaDiamond, FaWaze } from "react-icons/fa6";
 import { LuMap } from "react-icons/lu";
 import VenueLeafletMap from "./components/VenueLeafletMap";
 import TransportGuideCards from "./components/TransportGuideCards";
+import SectionDivider from "../SectionDivider";
 
 const GOOGLE_MAPS_URL =
   "https://www.google.com/maps/dir/?api=1&destination=PRPP+Semarang,+Jalan+Anjasmoro+Raya,+Tawangsari,+Semarang";
@@ -12,10 +13,10 @@ export default function ContactMapSection() {
   return (
     <section
       id="contact-map-section"
-      className="w-full bg-hijau-butek py-16 sm:py-20 md:py-24 px-4 sm:px-6 lg:px-8 text-cream-terang"
+      className="w-full bg-hijau-butek pt-16 sm:pt-20 md:pt-24 pb-0 text-cream-terang"
       aria-label="Lokasi dan Panduan Akses Menuju PRPP Semarang"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 md:pb-24">
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 sm:gap-8 mb-8 sm:mb-10">
           <div>
@@ -73,6 +74,9 @@ export default function ContactMapSection() {
         {/* 3 Kartu Panduan Akses Transportasi */}
         <TransportGuideCards />
       </div>
+
+      {/* Pemisah checkerboard bawah section (edge-to-edge) */}
+      <SectionDivider />
     </section>
   );
 }

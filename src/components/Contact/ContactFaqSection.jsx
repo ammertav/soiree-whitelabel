@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { LuMessageSquareText, LuBookOpen } from "react-icons/lu";
 import FaqAccordionItem from "./components/FaqAccordionItem";
+import SectionDivider from "../SectionDivider";
 
 // Data pertanyaan yang sering ditanyakan (FAQ) penonton
 const FAQ_ITEMS = [
@@ -49,10 +50,10 @@ export default function ContactFaqSection() {
   return (
     <section
       id="contact-faq-section"
-      className="w-full bg-putih-butek pt-16 sm:pt-20 md:pt-24 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 text-ungu-heading"
+      className="w-full bg-putih-butek pt-16 sm:pt-20 md:pt-24 pb-0 text-ungu-heading"
       aria-label="Tanya Jawab Cepat Hal Lazim yang Sering Ditanyakan Penonton"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 md:pb-24">
         {/* Header Section */}
         <div className="flex flex-col items-center text-center mb-8 sm:mb-12">
           {/* Badge Tanya Jawab Cepat */}
@@ -102,10 +103,10 @@ export default function ContactFaqSection() {
             <span>BACA TANYA JAWAB (FAQ) LENGKAP</span>
           </a>
         </div>
-
-        {/* Garis Batas Bawah Section */}
-        <div className="border-t-2 sm:border-t-[2.5px] border-ungu-heading mt-16 sm:mt-20 md:mt-24" />
       </div>
+
+      {/* Pemisah checkerboard bawah section menuju Footer (edge-to-edge) */}
+      <SectionDivider />
     </section>
   );
 }
