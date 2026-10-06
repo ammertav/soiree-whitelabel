@@ -26,7 +26,7 @@ export default function SearchBar({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`relative flex items-center bg-[#FDF6E8] border-[2.5px] border-ungu-heading rounded-full pl-5 sm:pl-6 pr-2 py-2 sm:py-2.5 transition-all duration-200 shadow-[3.5px_4px_0_var(--color-ungu-heading)] focus-within:shadow-[4px_4.5px_0_var(--color-ungu-heading)] ${className}`}
+      className={`relative flex items-center bg-cream-terang border-[2.5px] border-ungu-heading rounded-full pl-5 sm:pl-6 pr-2 py-2 sm:py-2.5 transition-all duration-200 shadow-[3.5px_4px_0_var(--color-ungu-heading)] focus-within:shadow-[4px_4.5px_0_var(--color-ungu-heading)] ${className}`}
       role="search"
     >
       <input

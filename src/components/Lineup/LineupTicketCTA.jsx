@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import SectionDivider from "../SectionDivider";
 
 /**
@@ -44,8 +45,8 @@ export default function LineupTicketCTA() {
         </p>
 
         {/* Tombol CTA Pesan Tiket */}
-        <a
-          href="#tiket"
+        <Link
+          to="/pemesanan"
           className="inline-flex items-center justify-center gap-2.5 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-hijau border-2 border-ungu-heading text-cream-tua shadow-[4px_4.5px_0_var(--color-ungu-heading)] hover:-translate-y-0.5 hover:shadow-[5px_6px_0_var(--color-ungu-heading)] active:translate-y-0 active:shadow-[2px_2px_0_var(--color-ungu-heading)] transition-all mt-8 sm:mt-10 cursor-pointer"
         >
           {/* Ticket With Star Icon */}
@@ -69,7 +70,7 @@ export default function LineupTicketCTA() {
           <span className="font-dm-sans font-black text-xs sm:text-sm tracking-wider uppercase text-cream-tua">
             PESAN TIKET SEKARANG
           </span>
-        </a>
+        </Link>
 
         {/* 3 Trust Badges */}
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-7 md:gap-8 mt-8 sm:mt-10 text-ungu-heading font-dm-sans font-bold text-xs sm:text-[13px]">

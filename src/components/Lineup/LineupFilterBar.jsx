@@ -55,7 +55,7 @@ export default function LineupFilterBar({
                 className={`rounded-[20px] sm:rounded-[22px] px-7 sm:px-8 py-2.5 sm:py-3.5 border-[2.5px] border-ungu-heading text-center leading-tight transition-all duration-200 cursor-pointer min-w-[115px] sm:min-w-[130px] shadow-[3.5px_4px_0_var(--color-ungu-heading)] ${
                   isActive
                     ? "bg-kuning-tua text-ungu-heading scale-[1.02]"
-                    : "bg-[#FDF6E8] text-ungu-heading hover:bg-[#F5EEDB] active:scale-95"
+                    : "bg-cream-terang text-ungu-heading hover:bg-cream-tua active:scale-95"
                 }`}
                 aria-pressed={isActive}
               >
@@ -77,7 +77,7 @@ export default function LineupFilterBar({
             <select
               value={selectedStage}
               onChange={(e) => onStageChange && onStageChange(e.target.value)}
-              className="w-full appearance-none bg-[#FDF6E8] border-[2.5px] border-ungu-heading rounded-[18px] sm:rounded-[20px] px-5 sm:px-6 py-2 sm:py-2.5 pr-10 font-dm-sans font-black text-xs sm:text-[13px] text-ungu-heading focus:outline-none cursor-pointer shadow-[3.5px_4px_0_var(--color-ungu-heading)]"
+              className="w-full appearance-none bg-cream-terang border-[2.5px] border-ungu-heading rounded-[18px] sm:rounded-[20px] px-5 sm:px-6 py-2 sm:py-2.5 pr-10 font-dm-sans font-black text-xs sm:text-[13px] text-ungu-heading focus:outline-none cursor-pointer shadow-[3.5px_4px_0_var(--color-ungu-heading)]"
               aria-label="Filter Panggung"
             >
               {stages.map((stg) => (
@@ -94,7 +94,7 @@ export default function LineupFilterBar({
             <select
               value={selectedOrigin}
               onChange={(e) => onOriginChange && onOriginChange(e.target.value)}
-              className="w-full appearance-none bg-[#FDF6E8] border-[2.5px] border-ungu-heading rounded-[18px] sm:rounded-[20px] px-5 sm:px-6 py-2 sm:py-2.5 pr-10 font-dm-sans font-black text-xs sm:text-[13px] text-ungu-heading focus:outline-none cursor-pointer shadow-[3.5px_4px_0_var(--color-ungu-heading)]"
+              className="w-full appearance-none bg-cream-terang border-[2.5px] border-ungu-heading rounded-[18px] sm:rounded-[20px] px-5 sm:px-6 py-2 sm:py-2.5 pr-10 font-dm-sans font-black text-xs sm:text-[13px] text-ungu-heading focus:outline-none cursor-pointer shadow-[3.5px_4px_0_var(--color-ungu-heading)]"
               aria-label="Filter Asal Kurasi"
             >
               {origins.map((orig) => (

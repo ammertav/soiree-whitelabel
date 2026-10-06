@@ -14,7 +14,7 @@ import imgDanilla from "../../assets/images/lineup-headliners/node-331.png";
 import imgGoodnightElectric from "../../assets/images/lineup-headliners/node-359.png";
 import imgMorfem from "../../assets/images/lineup-headliners/node-386.png";
 
-export const HEADLINER_ARTISTS = [
+const HEADLINER_ARTISTS = [
   {
     id: "the-adams",
     name: "THE ADAMS",
