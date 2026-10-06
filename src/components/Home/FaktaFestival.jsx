@@ -66,9 +66,9 @@ export default function FaktaFestival() {
 
         {/* 2x2 Grid of Fact Cards - aligned with Navbar width */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 w-full">
-          {cards.map((card, idx) => (
+          {cards.map((card) => (
             <div
-              key={idx}
+              key={card.label}
               className={`${card.bgColor} rounded-[22px] border-2 border-ungu-heading p-6 sm:p-8 flex flex-col justify-between shadow-[3px_4px_0_var(--color-ungu-heading)] transition-transform duration-300 hover:-translate-y-0.5`}
             >
               {/* Card Top Row: Label & Icon */}

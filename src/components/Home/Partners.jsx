@@ -66,9 +66,9 @@ export default function Partners() {
 
           {/* 4 Large Partner Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 w-full">
-            {mainPartners.map((partner, idx) => (
+            {mainPartners.map((partner) => (
               <div
-                key={idx}
+                key={partner.name}
                 className="rounded-[20px] border-2 border-ungu-heading bg-cream-tua shadow-[4px_5px_0_var(--color-ungu-heading)] flex items-center justify-center p-4 sm:p-5 text-center min-h-[96px] sm:min-h-[115px] md:min-h-[125px] transition-transform duration-200 hover:-translate-y-0.5"
               >
                 <span className="font-fraunces font-black text-lg sm:text-xl md:text-2xl text-ungu-heading tracking-tight uppercase leading-snug whitespace-pre-line">
@@ -88,9 +88,9 @@ export default function Partners() {
 
           {/* 5 Brand Partner Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 w-full">
-            {brandPartners.map((brand, idx) => (
+            {brandPartners.map((brand) => (
               <div
-                key={idx}
+                key={brand}
                 className="rounded-[14px] border-2 border-ungu-heading bg-cream-tua shadow-[3px_4px_0_var(--color-ungu-heading)] flex items-center justify-center p-3 text-center min-h-[58px] sm:min-h-[68px] transition-transform duration-200 hover:-translate-y-0.5"
               >
                 <span className="font-dm-sans font-black text-xs sm:text-sm text-ungu-heading tracking-wider uppercase">
@@ -119,9 +119,9 @@ export default function Partners() {
 
             {/* Partner Pills */}
             <div className="flex flex-wrap gap-2.5 sm:gap-3">
-              {mediaPartners.map((item, idx) => (
+              {mediaPartners.map((item) => (
                 <span
-                  key={idx}
+                  key={item}
                   className="inline-block px-3.5 sm:px-4 py-1.5 rounded-full border-2 border-ungu-heading bg-cream-tua text-ungu-heading font-dm-sans font-bold text-[10px] sm:text-[11px] uppercase tracking-wider transition-colors hover:bg-cream-tengah"
                 >
                   {item}
@@ -146,9 +146,9 @@ export default function Partners() {
 
             {/* Partner List */}
             <div className="flex flex-col gap-2.5">
-              {institutionalPartners.map((item, idx) => (
+              {institutionalPartners.map((item) => (
                 <div
-                  key={idx}
+                  key={item}
                   className="flex items-center gap-2.5 text-ungu-heading"
                 >
                   <img

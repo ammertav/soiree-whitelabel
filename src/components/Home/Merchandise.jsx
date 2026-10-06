@@ -67,10 +67,10 @@ export default function Merchandise() {
 
             {/* 2x2 Grid of Merch Highlights */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mb-6 sm:mb-8">
-              {merchItems.map((item, idx) => (
+              {merchItems.map((item) => (
                 <div
-                  key={idx}
-                  className="rounded-[12px] border-2 border-ungu-heading bg-[#F5EBD7] px-3.5 py-2.5 sm:py-3 flex items-center gap-3 transition-transform duration-200 hover:-translate-y-0.5"
+                  key={item.name}
+                  className="rounded-[12px] border-2 border-ungu-heading bg-cream-tua px-3.5 py-2.5 sm:py-3 flex items-center gap-3 transition-transform duration-200 hover:-translate-y-0.5"
                 >
                   <img
                     src={item.icon}
@@ -86,7 +86,7 @@ export default function Merchandise() {
 
             {/* CTA Button */}
             <Link
-              to="/merchandise"
+              to="/katalog-merchandise"
               className="inline-flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full bg-kuning-tua text-ungu-heading border-2 border-ungu-heading font-dm-sans font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-[3.5px_4px_0_var(--color-ungu-heading)] hover:bg-kuning-muda hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all"
             >
               {/* Outline Shopping Bag Icon matching design */}

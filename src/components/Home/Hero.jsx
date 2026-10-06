@@ -38,19 +38,21 @@ export default function Hero() {
         {/* Soft Ambient Radial Lights (Sesuai Screenshot) */}
         <div className="absolute top-10 -left-16 w-52 h-52 bg-tosca-muda/15 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
         <div className="absolute top-32 -right-16 w-56 h-56 bg-kuning-tua/15 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
-        <div className="absolute top-[320px] left-1/2 -translate-x-1/2 w-64 h-64 bg-[#4a635b]/30 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+        <div className="absolute top-[320px] left-1/2 -translate-x-1/2 w-64 h-64 bg-hijau-butek/30 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
 
         {/* Pill Tagline Teratas */}
         <div className="font-dm-sans relative z-10 inline-flex items-center gap-3 px-5 sm:px-6 py-2.5 rounded-full bg-dark-teal shadow-[2.5px_3px_0_var(--color-ungu-heading)] mb-5">
           <HiSparkles className="w-4 h-4 text-kuning-muda shrink-0" aria-hidden="true" />
           <div className="flex flex-col text-center font-black text-kuning-muda tracking-wider uppercase text-[11px] leading-tight">
-            <span>{HERO_DATA.badgeCategoryLines[0]}</span>
-            <span>{HERO_DATA.badgeCategoryLines[1]}</span>
+            {HERO_DATA.badgeCategoryLines.map((line) => (
+              <span key={line}>{line}</span>
+            ))}
           </div>
           <span className="text-cream-tengah font-bold select-none">•</span>
           <div className="flex flex-col text-center italic text-cream-tengah text-xs sm:text-[13px] leading-tight">
-            <span>{HERO_DATA.badgeTaglineLines[0]}</span>
-            <span>{HERO_DATA.badgeTaglineLines[1]}</span>
+            {HERO_DATA.badgeTaglineLines.map((line) => (
+              <span key={line}>{line}</span>
+            ))}
           </div>
         </div>
 
@@ -64,14 +66,17 @@ export default function Hero() {
           </span>
         </h1>
 
-        {/* Pill Info Waktu & Tempat (Background Ungu Heading + Shadow Kuning Muda di Bawah & Kanan) */}
+        {/* Pill Info Waktu & Tempat */}
         <div className="relative z-10 flex items-center justify-between px-6 py-2.5 rounded-full bg-ungu-heading shadow-[2.5px_3px_0_var(--color-kuning-muda)] text-cream-terang mb-6 w-full max-w-[340px]">
           {/* Kolom Kiri: Tanggal */}
           <div className="flex items-center gap-2.5 font-dm-sans">
             <HiOutlineCalendarDays className="w-5 h-5 text-kuning-muda shrink-0 stroke-[1.8]" aria-hidden="true" />
             <div className="text-center leading-tight">
-              <span className="block text-xs sm:text-[13px] text-cream-terang font-extrabold tracking-wide">{HERO_DATA.dateLines[0]}</span>
-              <span className="block text-xs sm:text-[13px] text-cream-terang font-extrabold tracking-wide">{HERO_DATA.dateLines[1]}</span>
+              {HERO_DATA.dateLines.map((line) => (
+                <span key={line} className="block text-xs sm:text-[13px] text-cream-terang font-extrabold tracking-wide">
+                  {line}
+                </span>
+              ))}
             </div>
           </div>
 
@@ -83,14 +88,17 @@ export default function Hero() {
 
           {/* Kolom Kanan: Tempat */}
           <div className="text-center leading-tight font-dm-sans">
-            <span className="block text-xs sm:text-[13px] text-cream-terang font-extrabold tracking-wide">{HERO_DATA.venueLines[0]}</span>
-            <span className="block text-xs sm:text-[13px] text-cream-terang font-extrabold tracking-wide">{HERO_DATA.venueLines[1]}</span>
+            {HERO_DATA.venueLines.map((line) => (
+              <span key={line} className="block text-xs sm:text-[13px] text-cream-terang font-extrabold tracking-wide">
+                {line}
+              </span>
+            ))}
           </div>
         </div>
 
         {/* Artwork Lingkaran Kucing & Badge Proscenium */}
         <div className="relative z-10 flex flex-col items-center mb-6">
-          <div className="w-[260px] h-[260px] sm:w-[280px] sm:h-[280px] rounded-full bg-[#46665c] border-[3px] border-ungu-heading p-3 flex items-center justify-center shadow-inner overflow-hidden">
+          <div className="w-[260px] h-[260px] sm:w-[280px] sm:h-[280px] rounded-full bg-hijau-tua border-[3px] border-ungu-heading p-3 flex items-center justify-center shadow-inner overflow-hidden">
             <img
               src={catProscenium}
               alt={HERO_DATA.artworkLabel}

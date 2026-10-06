@@ -83,9 +83,9 @@ export default function Tickets() {
 
         {/* 3 Ticket Cards - aligned with Navbar width and strictly equal height */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 w-full mt-12 md:mt-16 items-stretch">
-          {ticketCategories.map((ticket, idx) => (
+          {ticketCategories.map((ticket) => (
             <div
-              key={idx}
+              key={ticket.name}
               className="relative rounded-[24px] border-2 border-ungu-heading bg-cream-tua overflow-hidden shadow-[4px_6px_0_var(--color-ungu-heading)] flex flex-col justify-between transition-transform duration-300 hover:-translate-y-1"
             >
               {/* Ticket Top Header - fixed height for seamless horizontal alignment */}

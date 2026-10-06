@@ -57,9 +57,9 @@ export default function Manifesto() {
 
         {/* 3 Pillar Cards - aligned with Navbar width */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 w-full mt-12 md:mt-16">
-          {pillars.map((pillar, idx) => (
+          {pillars.map((pillar) => (
             <div
-              key={idx}
+              key={pillar.title}
               className="bg-hijau-tua rounded-[24px] border-2 border-ungu-heading p-6 sm:p-8 flex flex-col items-center text-center shadow-[4px_5px_0_var(--color-ungu-heading)] transition-transform duration-300 hover:-translate-y-1"
             >
               {/* Illustrated Mascot */}
