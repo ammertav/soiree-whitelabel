@@ -10,6 +10,8 @@ const Pemesanan = lazy(() => import("./pages/Pemesanan"));
 const Lineup = lazy(() => import("./pages/Lineup"));
 const KatalogMerchandise = lazy(() => import("./pages/KatalogMerchandise"));
 const Roadmap = lazy(() => import("./pages/Roadmap"));
+const Contact = lazy(() => import("./pages/Contact"));
+const KonfirmasiTransaksi = lazy(() => import("./pages/KonfirmasiTransaksi"));
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/roadmap" element={<Roadmap />} />
         <Route path="/lineup" element={<Lineup />} />
         <Route path="/katalog-merchandise" element={<KatalogMerchandise />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/konfirmasi-transaksi" element={<KonfirmasiTransaksi />} />
         <Route path="/events" element={<Event />} />
         <Route path="/event/:id/:slug" element={<EventDetail />} />
         <Route path="/transaction/:transactionId/:no_order" element={<Transaction />} />
