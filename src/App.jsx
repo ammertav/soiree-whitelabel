@@ -12,6 +12,7 @@ const KatalogMerchandise = lazy(() => import("./pages/KatalogMerchandise"));
 const Roadmap = lazy(() => import("./pages/Roadmap"));
 const Contact = lazy(() => import("./pages/Contact"));
 const KonfirmasiTransaksi = lazy(() => import("./pages/KonfirmasiTransaksi"));
+const Rundown = lazy(() => import("./pages/Rundown"));
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/roadmap" element={<Roadmap />} />
+        <Route path="/rundown" element={<Rundown />} />
         <Route path="/lineup" element={<Lineup />} />
         <Route path="/katalog-merchandise" element={<KatalogMerchandise />} />
         <Route path="/contact" element={<Contact />} />

@@ -5,7 +5,6 @@ import logoSoiree from "../../assets/images/hero/logo-web.png";
 import stageImage from "../../assets/images/hero/node-45.png";
 import ornamenEye from "../../assets/images/hero/ornamen-mata-bintang-51.png";
 import catProscenium from "../../assets/soiree-dansante-assets/objects/01-panggung-kepala-kucing.png";
-import checkboardDivider from "../../assets/soiree-dansante-assets/divider/checkboard-divider.png";
 
 // Konfigurasi data terpusat (Single Source of Truth)
 const HERO_DATA = {
@@ -210,24 +209,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* ========================================================
-          3. PEMISAH SECTION BAWAH
-          - Mobile : Checkboard Strip Divider (checkboard-divider.png)
-          - Desktop: Section Divider SVG (SectionDivider)
-          ======================================================== */}
-      {/* Mobile Checkerboard Strip */}
-      <div className="w-full block md:hidden leading-none select-none">
-        <img
-          src={checkboardDivider}
-          alt="Checkerboard Divider"
-          className="w-full h-auto block object-cover"
-        />
-      </div>
-
-      {/* Desktop Divider */}
-      <div className="hidden md:block">
-        <SectionDivider />
-      </div>
+      {/* Pemisah Section Bawah */}
+      <SectionDivider />
     </section>
   );
 }

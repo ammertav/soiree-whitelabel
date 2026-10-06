@@ -406,7 +406,7 @@ export default function MerchandiseCatalogSection() {
                           </div>
 
                           {isOutOfStock ? (
-                            <span className="px-2.5 py-1 rounded-full bg-gray-200 border border-gray-400 font-dm-sans font-black text-[10px] text-gray-500 uppercase tracking-wider">
+                            <span className="px-2.5 py-1 rounded-full bg-cream-tua/60 border border-ungu-heading/30 font-dm-sans font-black text-[10px] text-ungu-heading/50 uppercase tracking-wider">
                               Habis
                             </span>
                           ) : isMaxInCart ? (
@@ -530,7 +530,7 @@ export default function MerchandiseCatalogSection() {
                             className={`w-5 h-5 flex items-center justify-center rounded text-[10px] transition-colors cursor-pointer ${
                               canIncrement
                                 ? "bg-cream-tua hover:bg-kuning-tua text-ungu-heading"
-                                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                : "bg-cream-tua/60 text-ungu-heading/30 cursor-not-allowed"
                             }`}
                             title={!canIncrement ? `Maksimal stok tercapai (${availableStock} pcs)` : "Tambah kuantitas"}
                             aria-label="Tambah kuantitas"
@@ -560,7 +560,7 @@ export default function MerchandiseCatalogSection() {
               )}
 
               {/* Box Pilihan Metode Pengambilan */}
-              <div className="bg-[#244C47]/10 border border-ungu-heading/30 rounded-xl p-3.5 mb-4 text-left">
+              <div className="bg-dark-teal/10 border border-ungu-heading/30 rounded-xl p-3.5 mb-4 text-left">
                 <span className="block font-dm-sans font-black text-[10px] sm:text-[11px] uppercase tracking-wider text-ungu-heading mb-2.5 flex items-center gap-1.5">
                   <span>&#128193;</span> METODE PENGAMBILAN
                 </span>
@@ -721,7 +721,7 @@ export default function MerchandiseCatalogSection() {
               </div>
             </div>
 
-            <div className="bg-[#244C47]/10 border border-ungu-heading/20 rounded-xl p-3 mb-5 text-[11px] font-dm-sans text-ungu-heading/80">
+            <div className="bg-dark-teal/10 border border-ungu-heading/20 rounded-xl p-3 mb-5 text-[11px] font-dm-sans text-ungu-heading/80">
               <span className="font-bold block mb-1 text-ungu-heading">Payload API Siap:</span>
               <code className="text-[10px] bg-white/70 px-1.5 py-0.5 rounded border border-ungu-heading/20 block overflow-x-auto">
                 POST /api/v1/orders/merchandise &bull; items: {cartItems.length}, total: {totalEstimasi}

@@ -16,12 +16,12 @@ export default function MerchandiseBundleFeatured() {
   return (
     <section className="relative w-full bg-hijau-butek py-10 sm:py-14 md:py-16 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative w-full bg-[#244C47] border-[2.5px] border-ungu-heading rounded-[28px] sm:rounded-[36px] p-6 sm:p-8 md:p-10 lg:p-12 shadow-[8px_8px_0_var(--color-ungu-heading)] overflow-hidden">
+        <div className="relative w-full bg-dark-teal border-[2.5px] border-ungu-heading rounded-[28px] sm:rounded-[36px] p-6 sm:p-8 md:p-10 lg:p-12 shadow-[8px_8px_0_var(--color-ungu-heading)] overflow-hidden">
           
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Foto Flatlay Bundle (node-106.png) */}
             <div className="lg:col-span-6 w-full">
-              <div className="relative rounded-2xl border-2 border-ungu-heading bg-[#FAF2E1] overflow-hidden group shadow-sm">
+              <div className="relative rounded-2xl border-2 border-ungu-heading bg-cream-terang overflow-hidden group shadow-sm">
                 <div className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 z-20 inline-flex items-center px-3.5 py-1.5 rounded-full bg-kuning-tua border-2 border-ungu-heading shadow-xs select-none">
                   <span className="font-dm-sans font-black text-[10px] sm:text-xs text-ungu-heading tracking-wider uppercase">
                     BUNDLE HEMAT FESTIVAL &bull; DISKON 15%

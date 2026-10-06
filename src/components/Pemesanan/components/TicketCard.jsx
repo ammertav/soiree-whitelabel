@@ -5,9 +5,9 @@ export default function TicketCard({ ticket, qty, onQtyChange, canIncrement }) {
   const isYellow = ticket.theme === "yellow";
 
   const stubBgClass = isTeal
-    ? "bg-[#1E6A62] text-cream-tua"
+    ? "bg-hijau text-cream-tua"
     : isYellow
-    ? "bg-[#E6A92E] text-ungu-heading"
+    ? "bg-kuning-tua text-ungu-heading"
     : "bg-cream-terang text-ungu-heading";
 
   return (
@@ -30,7 +30,7 @@ export default function TicketCard({ ticket, qty, onQtyChange, canIncrement }) {
                     ? "bg-cream-terang text-ungu-heading"
                     : isYellow
                     ? "bg-ungu-heading text-cream-tua"
-                    : "bg-[#1E6A62] text-cream-tua"
+                    : "bg-hijau text-cream-tua"
                 }`}
               >
                 {isTeal && <span className="text-kuning-tua font-black">||</span>}

@@ -2,6 +2,10 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ContactHero from "../components/Contact/ContactHero";
+import ContactChannels from "../components/Contact/ContactChannels";
+import ContactFormSection from "../components/Contact/ContactFormSection";
+import ContactMapSection from "../components/Contact/ContactMapSection";
+import ContactFaqSection from "../components/Contact/ContactFaqSection";
 
 export default function Contact() {
   const jsonLd = {
@@ -32,6 +36,18 @@ export default function Contact() {
         <main className="flex-1">
           {/* Section 1: Hero Hubungi Penyelenggara */}
           <ContactHero />
+
+          {/* Section 2: Kanal Kontak & Informasi Festival */}
+          <ContactChannels />
+
+          {/* Section 3: Formulir Pesan Langsung & Posko Penyelenggara */}
+          <ContactFormSection />
+
+          {/* Section 4: Denah Venue & Panduan Rute Kedatangan PRPP */}
+          <ContactMapSection />
+
+          {/* Section 5: Tanya Jawab Cepat (FAQ) Penonton */}
+          <ContactFaqSection />
         </main>
 
         <Footer />

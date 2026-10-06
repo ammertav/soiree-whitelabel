@@ -22,11 +22,11 @@ export default function RoadmapHero() {
     <section className="relative w-full bg-hijau-butek pt-12 pb-0 md:pt-16 overflow-hidden">
       {/* Elemen Ambient Background (Lingkaran Halus Kiri & Kanan Sesuai Desain) */}
       <div
-        className="absolute top-6 -left-16 w-56 h-56 md:w-72 md:h-72 rounded-full bg-[#46695e]/50 pointer-events-none"
+        className="absolute top-6 -left-16 w-56 h-56 md:w-72 md:h-72 rounded-full bg-hijau-butek/50 pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute top-24 -right-16 w-64 h-64 md:w-80 md:h-80 rounded-full bg-[#46695e]/45 pointer-events-none"
+        className="absolute top-24 -right-16 w-64 h-64 md:w-80 md:h-80 rounded-full bg-hijau-butek/45 pointer-events-none"
         aria-hidden="true"
       />
 

@@ -151,7 +151,7 @@ export default function CobaMaps() {
       </Helmet>
 
       {/* Main Section Background with exact dark cyan-teal tone */}
-      <div className="min-h-screen bg-[#2d5153] text-white font-['Plus_Jakarta_Sans',sans-serif] selection:bg-[#f3a436] selection:text-[#2b1720]">
+      <div className="min-h-screen bg-hijau-butek text-white font-['Plus_Jakarta_Sans',sans-serif] selection:bg-[#f3a436] selection:text-[#2b1720]">
         
         {/* Navigation Bar / Top Bar */}
         <header className="border-b border-white/10 bg-[#244244]/90 backdrop-blur-md sticky top-0 z-50 px-4 sm:px-8 py-3.5 flex items-center justify-between">
