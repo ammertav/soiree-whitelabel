@@ -14,8 +14,17 @@ export default function Navbar() {
     { name: "RUNDOWN", path: "/rundown" },
     { name: "LINEUP", path: "/lineup" },
     { name: "MERCHANDISE", path: "/katalog-merchandise" },
+    { name: "GALLERY", path: "/gallery" },
     { name: "CONTACT US", path: "/contact" },
   ];
+
+  // Klik link ke halaman yang sedang dibuka: path tidak berubah, jadi gulir ke atas manual
+  const handleNavClick = (path) => {
+    setIsMobileMenuOpen(false);
+    if (location.pathname === path) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   const checkIsActive = (linkPath) => {
     if (linkPath === "/") return location.pathname === "/";
@@ -29,7 +38,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full bg-hijau-butek border-b-[3px] border-ungu-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Left: Brand / Logo */}
-        <Link to="/" className="flex items-center gap-3 group">
+        <Link to="/" onClick={() => handleNavClick("/")} className="flex items-center gap-3 group">
           <img
             src={logoNavbar}
             alt="Soirée Dansante Logo"
@@ -54,6 +63,7 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 to={link.path}
+                onClick={() => handleNavClick(link.path)}
                 className={`font-dm-sans font-extrabold text-xs tracking-wider transition-all duration-200 ${
                   isActive
                     ? "text-cream-tua border-b-2 border-cream-tua pb-0.5"
@@ -69,18 +79,12 @@ export default function Navbar() {
         {/* Right: CTA Button & Avatar (Desktop & Tablet) */}
         <div className="hidden sm:flex items-center gap-3 md:gap-4">
           <Link
-            to="/pemesanan"
+            to="/roadmap"
+            onClick={() => handleNavClick("/roadmap")}
             className="font-dm-sans font-black text-xs md:text-sm uppercase tracking-wider bg-kuning-tua text-ungu-heading px-5 md:px-6 py-2.5 rounded-full border-2 border-ungu-heading hover:bg-kuning-muda hover:scale-[1.02] active:scale-95 transition-all shadow-[0_2px_0_var(--color-ungu-heading)]"
           >
             AMANKAN TIKETMU
           </Link>
-          <div className="w-10 h-10 rounded-full border-2 border-ungu-heading overflow-hidden shrink-0 bg-ungu-heading shadow-sm">
-            <img
-              src={edanAvatar}
-              alt="EDAN Badge"
-              className="w-full h-full object-cover"
-            />
-          </div>
         </div>
 
         {/* Mobile Hamburger Button (Matching Image 2: Yellow Rounded Square) */}
@@ -114,7 +118,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => handleNavClick(link.path)}
                   className={`font-dm-sans font-bold text-sm tracking-wider py-1.5 transition-colors ${
                     isActive
                       ? "text-cream-tua border-b-2 border-cream-tua inline-block w-fit"
@@ -128,8 +132,8 @@ export default function Navbar() {
           </nav>
           <div className="pt-2">
             <Link
-              to="/pemesanan"
-              onClick={() => setIsMobileMenuOpen(false)}
+              to="/roadmap"
+              onClick={() => handleNavClick("/roadmap")}
               className="block text-center font-dm-sans font-extrabold text-sm uppercase tracking-wider bg-kuning-tua text-ungu-heading px-6 py-3 rounded-full border-2 border-ungu-heading shadow-sm"
             >
               AMANKAN TIKETMU

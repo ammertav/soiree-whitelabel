@@ -2,91 +2,75 @@ import artCatMirror from "../assets/soiree-dansante-assets/objects/02-kucing-ber
 import artCatFlower from "../assets/soiree-dansante-assets/objects/03-tubuh-berbunga.png";
 import artCatToast from "../assets/soiree-dansante-assets/objects/04-bersulang.png";
 import artCatDoor from "../assets/soiree-dansante-assets/objects/06-tangga-dan-pintu.png";
+import { eventPath, formatDateIndo, sortByStartTime } from "../utils";
 
-// Data terpusat roadmap festival (Single Source of Truth)
-export const ROADMAP_MILESTONES = [
-  {
-    id: 1,
-    number: "01",
-    badgeLabel: "01",
-    hasCheckmark: true,
-    statusText: "Selesai",
-    statusBadgeColor: "bg-dark-teal text-cream-terang",
-    nodeBadgeColor: "bg-kuning-tua text-ungu-heading",
-    nodeCircleBg: "bg-cream-terang",
-    title: "Kick-Off Showcase Semarang",
-    dateVenue: "24 Januari 2027 · Radjawali SCC, Semarang",
-    dateColor: "text-hijau",
-    description:
-      "Peluncuran resmi kurasi festival, pengenalan tema visual, dan penampilan pembuka musisi lokal Semarang.",
-    buttonText: "LIHAT DETAIL →",
-    buttonLink: "/events",
-    isHighlighted: false,
-    artwork: artCatMirror,
-    artworkAlt: "Ilustrasi Kucing Bercermin - Kick-Off Showcase",
-    cardPosition: "left",
-  },
-  {
-    id: 2,
-    number: "02",
-    badgeLabel: "02",
-    hasCheckmark: true,
-    statusText: "Selesai",
-    statusBadgeColor: "bg-dark-teal text-cream-terang",
-    nodeBadgeColor: "bg-kuning-tua text-ungu-heading",
-    nodeCircleBg: "bg-cream-terang",
-    title: "Warm-Up Gig Surakarta",
-    dateVenue: "20 Februari 2027 · Lokananta Studio, Surakarta",
-    dateColor: "text-hijau",
-    description:
-      "Rangkaian pertunjukan mini panggung akustik dan sesi berbagi kurasi musik Jawa Tengah.",
-    buttonText: "LIHAT DETAIL →",
-    buttonLink: "/events",
-    isHighlighted: false,
-    artwork: artCatFlower,
-    artworkAlt: "Ilustrasi Tubuh Berbunga - Warm-Up Gig",
-    cardPosition: "right",
-  },
-  {
-    id: 3,
-    number: "03",
-    badgeLabel: "03 - ACTIVE",
-    hasCheckmark: false,
-    statusText: "SEGERA!",
+// Artwork milestone dirotasi sesuai urutan event
+const MILESTONE_ARTWORKS = [
+  { src: artCatMirror, alt: "Ilustrasi Kucing Bercermin" },
+  { src: artCatFlower, alt: "Ilustrasi Tubuh Berbunga" },
+  { src: artCatToast, alt: "Ilustrasi Kucing Bersulang" },
+  { src: artCatDoor, alt: "Ilustrasi Tangga dan Pintu Kucing" },
+];
+
+// Gaya milestone per status: event terdekat = active, sisanya = upcoming
+const MILESTONE_STYLES = {
+  active: {
+    statusText: "AKTIF",
     statusBadgeColor: "bg-merah text-cream-terang",
     nodeBadgeColor: "bg-merah text-cream-terang",
     nodeCircleBg: "bg-kuning-tua",
-    title: "Pentas Senja Yogyakarta",
-    dateVenue: "27 Maret 2027 · PKKH UGM, Yogyakarta",
     dateColor: "text-merah",
-    description:
-      "Konser pemanasan pra-festival, penukaran merchandise eksklusif presale, dan sesi temu kurator seni.",
-    buttonText: "LIHAT DETAIL & RSVP 🎟",
-    buttonLink: "/pemesanan",
+    buttonText: "LIHAT DETAIL & TIKET 🎟",
     isHighlighted: true,
-    artwork: artCatToast,
-    artworkAlt: "Ilustrasi Kucing Bersulang - Pentas Senja",
-    cardPosition: "left",
   },
-  {
-    id: 4,
-    number: "04",
-    badgeLabel: "04",
-    hasCheckmark: false,
+  upcoming: {
     statusText: "Akan Datang",
     statusBadgeColor: "bg-pink-custom text-cream-terang",
     nodeBadgeColor: "bg-pink-custom text-ungu-heading",
     nodeCircleBg: "bg-cream-terang",
-    title: "Aktivasi Komunitas & Pop-Up Store",
-    dateVenue: "10 April 2027 · Kota Lama, Semarang",
     dateColor: "text-hijau",
-    description:
-      "Pameran instalasi seni publik, penjualan cenderamata resmi gelombang akhir, dan pusat panduan penonton.",
     buttonText: "LIHAT DETAIL →",
-    buttonLink: "/katalog-merchandise",
     isHighlighted: false,
-    artwork: artCatDoor,
-    artworkAlt: "Ilustrasi Tangga dan Pintu Kucing - Aktivasi Komunitas",
-    cardPosition: "right",
   },
-];
+};
+
+const describeEvent = (event) => {
+  const names = (event.lineups || []).map((lineup) => lineup.name);
+  if (names.length === 0) return "Detail acara, penampil, dan tiket tersedia di halaman event.";
+  const shown = names.slice(0, 3).join(", ");
+  return names.length > 3 ? `Menampilkan ${shown}, dan ${names.length - 3} penampil lainnya.` : `Menampilkan ${shown}.`;
+};
+
+/**
+ * Milestone timeline roadmap dari event aktif backend (/newest).
+ * Urut dari tanggal terdekat; kartu & artwork bergantian kiri-kanan.
+ */
+export const toRoadmapMilestones = (events = []) =>
+  sortByStartTime(events).map((event, index) => {
+    const statusType = index === 0 ? "active" : "upcoming";
+    const number = String(index + 1).padStart(2, "0");
+    const artwork = MILESTONE_ARTWORKS[index % MILESTONE_ARTWORKS.length];
+    const date = formatDateIndo(event.start_time, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "Asia/Jakarta",
+    });
+
+    return {
+      id: event.id,
+      position: index + 1,
+      number,
+      badgeLabel: statusType === "active" ? `${number} - AKTIF` : number,
+      hasCheckmark: false,
+      statusType,
+      ...MILESTONE_STYLES[statusType],
+      title: event.event,
+      dateVenue: `${date} · ${event.location}${event.city ? `, ${event.city}` : ""}`,
+      description: describeEvent(event),
+      buttonLink: eventPath(event),
+      artwork: artwork.src,
+      artworkAlt: `${artwork.alt} - ${event.event}`,
+      cardPosition: index % 2 === 0 ? "left" : "right",
+    };
+  });

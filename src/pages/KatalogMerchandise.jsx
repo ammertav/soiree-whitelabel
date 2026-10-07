@@ -5,7 +5,11 @@ import MerchandiseHero from "../components/Merchandise/MerchandiseHero";
 import MerchandiseBundleFeatured from "../components/Merchandise/MerchandiseBundleFeatured";
 import MerchandiseCatalogSection from "../components/Merchandise/MerchandiseCatalogSection";
 import MerchandiseFulfillmentGuide from "../components/Merchandise/MerchandiseFulfillmentGuide";
-import MerchandiseFaq from "../components/Merchandise/MerchandiseFaq";
+
+// Section disembunyikan sementara (konten pre-order/pengambilan di venue belum berlaku
+// karena pembelian dialihkan ke e-commerce). Ubah ke true untuk menampilkan lagi.
+const SHOW_BUNDLE_FEATURED = false;
+const SHOW_FULFILLMENT_GUIDE = false;
 
 export default function KatalogMerchandise() {
   const jsonLd = {
@@ -13,7 +17,7 @@ export default function KatalogMerchandise() {
     "@type": "CollectionPage",
     "name": "Katalog Merchandise Resmi - Soirée Dansante Semarang 2027",
     "description": "Koleksi merchandise resmi Soirée Dansante Semarang 2027. Kaos, tote bag, enamel pin, dan aksesori edisi terbatas.",
-    "url": "https://keenan-society.com/katalog-merchandise"
+    "url": "https://soireedansante.id/katalog-merchandise"
   };
 
   return (
@@ -38,16 +42,13 @@ export default function KatalogMerchandise() {
           <MerchandiseHero />
 
           {/* Section 2: Paket Komplit: Persona Karnaval (Featured Bundle) */}
-          <MerchandiseBundleFeatured />
+          {SHOW_BUNDLE_FEATURED && <MerchandiseBundleFeatured />}
 
-          {/* Section 3: Katalog Produk, Filter Bar & Sidebar Keranjang */}
+          {/* Section 3: Katalog Produk, Filter Bar & Link Toko Resmi */}
           <MerchandiseCatalogSection />
 
           {/* Section 4: Panduan Pengambilan & Pengiriman */}
-          <MerchandiseFulfillmentGuide />
-
-          {/* Section 5: Seputar Cenderamata Festival (FAQ Merchandise) */}
-          <MerchandiseFaq />
+          {SHOW_FULFILLMENT_GUIDE && <MerchandiseFulfillmentGuide />}
         </main>
 
         <Footer />

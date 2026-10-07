@@ -1,29 +1,22 @@
+import { Link } from "react-router-dom";
 import { formatRupiah } from "../../../utils";
-import { PAYMENT_METHODS } from "../../../data/pemesananData";
+import { PAYMENT_METHODS } from "../../../data/eventDetailData";
 
 export default function OrderSummarySidebar({
   orderSummary,
-  formattedTimer,
   onProceedToPayment,
+  isOnSale = true,
 }) {
   return (
     <aside className="lg:col-span-4 w-full lg:sticky lg:top-24">
       <div className="bg-cream-terang border-2 border-ungu-heading rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-[5px_5px_0_var(--color-ungu-heading)]">
         
-        {/* Header Ringkasan + Countdown Timer */}
-        <div className="flex items-center justify-between pb-3.5 mb-4 border-b-2 border-ungu-heading/20">
-          <div className="flex items-center gap-2">
-            <span className="text-base text-hijau">&#128196;</span>
-            <h3 className="font-dm-sans font-black text-base sm:text-lg text-ungu-heading">
-              Ringkasan Pesanan
-            </h3>
-          </div>
-
-          {/* Pill Timer */}
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cream-tua border border-ungu-heading/40 text-xs font-mono font-bold text-merah shadow-2xs">
-            <span>&#128293;</span>
-            <span>{formattedTimer}</span>
-          </div>
+        {/* Header Ringkasan */}
+        <div className="flex items-center gap-2 pb-3.5 mb-4 border-b-2 border-ungu-heading/20">
+          <span className="text-base text-hijau">&#128196;</span>
+          <h3 className="font-dm-sans font-black text-base sm:text-lg text-ungu-heading">
+            Ringkasan Pesanan
+          </h3>
         </div>
 
         {/* List Tiket Terpilih */}
@@ -41,7 +34,7 @@ export default function OrderSummarySidebar({
               {orderSummary.selectedItems.map((item) => (
                 <div key={item.id} className="flex justify-between items-start text-xs font-dm-sans">
                   <span className="text-ungu-heading/90 font-medium pr-2">
-                    {item.qty}x {item.title === "PENTAS SENJA JOGJA" ? "Pentas Senja Jogja Pass" : item.title === "ROADMAP BUNDLE" ? "Roadmap Bundle (Jogja + Festival)" : "2-Day Pass Festival"}
+                    {item.qty}x {item.type}
                   </span>
                   <span className="font-bold text-ungu-heading shrink-0">
                     {formatRupiah(item.total)}
@@ -62,16 +55,9 @@ export default function OrderSummarySidebar({
             <span className="font-bold text-ungu-heading">{formatRupiah(orderSummary.subtotal)}</span>
           </div>
 
-          {orderSummary.discount > 0 && (
-            <div className="flex justify-between text-merah font-semibold">
-              <span>Diskon Voucher</span>
-              <span>-{formatRupiah(orderSummary.discount)}</span>
-            </div>
-          )}
-
           <div className="flex justify-between text-ungu-heading/85">
-            <span>Pajak &amp; Biaya Layanan</span>
-            <span className="font-black text-hijau">Termasuk (Rp 0)</span>
+            <span>Biaya Layanan</span>
+            <span className="font-bold text-ungu-heading/70">Dihitung saat pembayaran</span>
           </div>
         </div>
 
@@ -80,16 +66,16 @@ export default function OrderSummarySidebar({
           <div className="flex items-baseline justify-between">
             <div>
               <span className="block font-dm-sans font-bold text-[11px] text-ungu-heading/70 uppercase tracking-wider">
-                TOTAL PEMBAYARAN
+                ESTIMASI TOTAL
               </span>
               <span className="block font-dm-sans text-[10px] text-ungu-heading/60">
-                Sudah bersih tanpa biaya tersembunyi
+                Belum termasuk biaya layanan
               </span>
             </div>
 
             <div className="text-right">
               <span className="font-fraunces font-black text-2xl sm:text-3xl lg:text-[34px] text-ungu-heading tracking-tight">
-                {formatRupiah(orderSummary.totalPayment)}
+                {formatRupiah(orderSummary.subtotal)}
               </span>
             </div>
           </div>
@@ -99,10 +85,10 @@ export default function OrderSummarySidebar({
         <button
           type="button"
           onClick={onProceedToPayment}
-          disabled={orderSummary.totalTickets === 0}
+          disabled={!isOnSale || orderSummary.totalTickets === 0}
           className="w-full py-3.5 rounded-full bg-kuning-tua hover:bg-kuning-muda disabled:opacity-50 disabled:cursor-not-allowed border-2 border-ungu-heading shadow-[3px_3px_0_var(--color-ungu-heading)] active:translate-y-0.5 text-ungu-heading font-dm-sans font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer mb-5"
         >
-          <span>LANJUT KE PEMBAYARAN</span>
+          <span>{isOnSale ? "LANJUT KE PEMBAYARAN" : "PENJUALAN DITUTUP"}</span>
           <span className="text-base leading-none">&rarr;</span>
         </button>
 
@@ -145,12 +131,12 @@ export default function OrderSummarySidebar({
           <span className="text-ungu-heading/80 flex items-center gap-1.5 text-[11px]">
             <span>&#127911;</span> Butuh bantuan cepat?
           </span>
-          <a
-            href="#contact"
+          <Link
+            to="/contact"
             className="font-bold text-hijau hover:underline text-[11px]"
           >
             Hubungi CS
-          </a>
+          </Link>
         </div>
 
       </div>

@@ -118,9 +118,7 @@ export default function MerchandiseFilterBar({
               onChange={(e) => onSortChange(e.target.value)}
               className="appearance-none pl-4 pr-8 py-2 sm:py-2.5 rounded-full bg-cream-terang border-2 border-ungu-heading text-ungu-heading font-dm-sans font-bold text-xs sm:text-[13px] focus:outline-none focus:ring-2 focus:ring-kuning-tua shadow-xs cursor-pointer"
             >
-              <option value="popular">Paling Populer</option>
-              <option value="price-low">Harga Terendah</option>
-              <option value="price-high">Harga Tertinggi</option>
+              <option value="default">Urutan Katalog</option>
               <option value="name-az">Nama A &ndash; Z</option>
             </select>
             {/* Custom Caret Icon */}

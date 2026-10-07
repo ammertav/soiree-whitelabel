@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Halaman Beranda -->
   <url>
-    <loc>https://keenansociety.com/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <loc>https://soireedansante.id/</loc>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-  <!-- Halaman Daftar Event -->
   <url>
-    <loc>https://keenansociety.com/events</loc>
-    <lastmod>2026-08-25</lastmod>
+    <loc>https://soireedansante.id/roadmap</loc>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://soireedansante.id/lineup</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://soireedansante.id/rundown</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://soireedansante.id/katalog-merchandise</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://soireedansante.id/gallery</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://soireedansante.id/contact</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

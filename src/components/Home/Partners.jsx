@@ -3,39 +3,18 @@ import iconAntenna from "../../assets/icons/partners/icon-548.svg";
 import iconTemple from "../../assets/icons/partners/icon-569.svg";
 import iconBadge from "../../assets/icons/partners/icon-575.svg";
 
+// Daftar mitra belum diumumkan: name null = tampil "Segera Diumumkan".
+// Isi `name` saat mitra resmi sudah dikonfirmasi (gunakan "\n" untuk nama 2 baris).
+const slots = (prefix, count) => Array.from({ length: count }, (_, i) => ({ id: `${prefix}-${i + 1}`, name: null }));
+
+const MAIN_PARTNERS = slots("main", 4);
+const BRAND_PARTNERS = slots("brand", 5);
+const MEDIA_PARTNERS = slots("media", 6);
+const INSTITUTIONAL_PARTNERS = slots("institution", 3);
+
+const PLACEHOLDER_NAME = "Segera Diumumkan";
+
 export default function Partners() {
-  const mainPartners = [
-    { name: "BANK JATENG", twoLines: false },
-    { name: "TELKOMSEL", twoLines: false },
-    { name: "GRAB", twoLines: false },
-    { name: "TEH BOTOL\nSOSRO", twoLines: true },
-  ];
-
-  const brandPartners = [
-    "EIGER",
-    "KOPI KENANGAN",
-    "CLEO WATER",
-    "SUPERMUSIC",
-    "POSTER.ID",
-  ];
-
-  const mediaPartners = [
-    "PRAMBORS RADIO",
-    "TRAX FM SEMARANG",
-    "WHITEBOARD JOURNAL",
-    "GIGSPLAY",
-    "KANALTIGAPULUH",
-    "REKAM MEDIA JATENG",
-    "SEMARANG KREATIF",
-  ];
-
-  const institutionalPartners = [
-    "Kemenparekraf / Wonderful Indonesia",
-    "Disbudpar Kota Semarang",
-    "Pemerintah Provinsi Jawa Tengah",
-    "PT PRPP Jawa Tengah (Perseroda)",
-  ];
-
   return (
     <section
       id="partners"
@@ -66,13 +45,13 @@ export default function Partners() {
 
           {/* 4 Large Partner Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 w-full">
-            {mainPartners.map((partner) => (
+            {MAIN_PARTNERS.map((partner) => (
               <div
-                key={partner.name}
+                key={partner.id}
                 className="rounded-[20px] border-2 border-ungu-heading bg-cream-tua shadow-[4px_5px_0_var(--color-ungu-heading)] flex items-center justify-center p-4 sm:p-5 text-center min-h-[96px] sm:min-h-[115px] md:min-h-[125px] transition-transform duration-200 hover:-translate-y-0.5"
               >
                 <span className="font-fraunces font-black text-lg sm:text-xl md:text-2xl text-ungu-heading tracking-tight uppercase leading-snug whitespace-pre-line">
-                  {partner.name}
+                  {partner.name || PLACEHOLDER_NAME}
                 </span>
               </div>
             ))}
@@ -88,13 +67,13 @@ export default function Partners() {
 
           {/* 5 Brand Partner Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 w-full">
-            {brandPartners.map((brand) => (
+            {BRAND_PARTNERS.map((brand) => (
               <div
-                key={brand}
+                key={brand.id}
                 className="rounded-[14px] border-2 border-ungu-heading bg-cream-tua shadow-[3px_4px_0_var(--color-ungu-heading)] flex items-center justify-center p-3 text-center min-h-[58px] sm:min-h-[68px] transition-transform duration-200 hover:-translate-y-0.5"
               >
                 <span className="font-dm-sans font-black text-xs sm:text-sm text-ungu-heading tracking-wider uppercase">
-                  {brand}
+                  {brand.name || PLACEHOLDER_NAME}
                 </span>
               </div>
             ))}
@@ -119,12 +98,12 @@ export default function Partners() {
 
             {/* Partner Pills */}
             <div className="flex flex-wrap gap-2.5 sm:gap-3">
-              {mediaPartners.map((item) => (
+              {MEDIA_PARTNERS.map((item) => (
                 <span
-                  key={item}
+                  key={item.id}
                   className="inline-block px-3.5 sm:px-4 py-1.5 rounded-full border-2 border-ungu-heading bg-cream-tua text-ungu-heading font-dm-sans font-bold text-[10px] sm:text-[11px] uppercase tracking-wider transition-colors hover:bg-cream-tengah"
                 >
-                  {item}
+                  {item.name || PLACEHOLDER_NAME}
                 </span>
               ))}
             </div>
@@ -146,9 +125,9 @@ export default function Partners() {
 
             {/* Partner List */}
             <div className="flex flex-col gap-2.5">
-              {institutionalPartners.map((item) => (
+              {INSTITUTIONAL_PARTNERS.map((item) => (
                 <div
-                  key={item}
+                  key={item.id}
                   className="flex items-center gap-2.5 text-ungu-heading"
                 >
                   <img
@@ -157,7 +136,7 @@ export default function Partners() {
                     className="w-4 h-4 object-contain shrink-0"
                   />
                   <span className="font-dm-sans font-bold text-xs sm:text-[13px] text-ungu-heading leading-snug">
-                    {item}
+                    {item.name || PLACEHOLDER_NAME}
                   </span>
                 </div>
               ))}

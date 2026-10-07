@@ -3,4 +3,4 @@ Allow: /
 
 Disallow: /transaction/
 
-Sitemap: https://keenansociety.com/sitemap.xml
+Sitemap: https://soireedansante.id/sitemap.xml

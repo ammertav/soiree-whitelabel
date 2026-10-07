@@ -13,7 +13,7 @@ export default function Contact() {
     "@type": "ContactPage",
     "name": "Hubungi Kami - Soirée Dansante",
     "description": "Pusat informasi dan bantuan penonton Soirée Dansante Semarang 2027. Hubungi penyelenggara seputar tiket, aksesibilitas panggung, kemitraan sponsor, dan penukaran wristband.",
-    "url": "https://soireedansante.com/contact"
+    "url": "https://soireedansante.id/contact"
   };
 
   return (

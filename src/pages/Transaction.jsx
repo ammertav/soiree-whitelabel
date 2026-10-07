@@ -1,395 +1,322 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import api from "../api";
-import Swal from "sweetalert2";
+import { LuReceipt, LuClock } from "react-icons/lu";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { IoTicket } from "react-icons/io5";
-import { MdCheck, MdTimer, MdCalendarToday, MdLocationOn } from "react-icons/md";
+import SectionDivider from "../components/SectionDivider";
+import TransactionStepper from "../components/Transaction/TransactionStepper";
+import PaymentEventCard from "../components/Transaction/PaymentEventCard";
+import { getTransaction, cancelTransaction } from "../services/transactionService";
+import { confirmationPath, eventPath, formatCountdown, formatRupiah } from "../utils";
 
 export default function Transaction() {
   const { transactionId, no_order } = useParams();
-  const [transaction, setTransaction] = useState(null);
-  const [snapToken, setSnapToken] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [timeLeft, setTimeLeft] = useState("");
   const navigate = useNavigate();
 
-  // --- INTERNAL COUNTDOWN LOGIC ---
+  const [transaction, setTransaction] = useState(null);
+  const [status, setStatus] = useState("loading"); // loading | ready | notfound
+  const [secondsLeft, setSecondsLeft] = useState(null);
+  const [isPaying, setIsPaying] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [notice, setNotice] = useState(null); // { type: "info" | "error", text }
+
+  // Muat transaksi; yang sudah lunas langsung ke halaman konfirmasi
   useEffect(() => {
-    if (!transaction?.expired_at) return;
+    const controller = new AbortController();
 
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const target = new Date(transaction.expired_at).getTime();
-      const distance = target - now;
-
-      if (distance < 0) {
-        clearInterval(interval);
-        setTimeLeft("Expired");
-        Swal.fire({
-          icon: "error",
-          title: "Session Expired",
-          text: "Your payment session has expired.",
-          background: "#000000",
-          color: "#ffffff",
-        }).then(() => navigate("/events"));
-      } else {
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        setTimeLeft(`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [transaction?.expired_at, navigate]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    const fetchSnapToken = async () => {
-      try {
-        const { data } = await api.get(`/transaction/${transactionId}/${no_order}`);
-        setTransaction(data.transaction || {});
-        setSnapToken(data.transaction?.snap_token || null);
-
-        if (!data.transaction?.snap_token) {
-          Swal.fire({
-            icon: "error",
-            title: "Snap token not found.",
-            background: "#000000",
-            color: "#ffffff",
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-          });
-          navigate("/events");
+    getTransaction(transactionId, no_order, { signal: controller.signal })
+      .then((data) => {
+        if (!data) {
+          setStatus("notfound");
+          return;
         }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Failed to load transaction.",
-          background: "#000000",
-          color: "#ffffff",
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-        });
-        navigate("/events");
-      }
-    };
+        if (data.status === "settlement") {
+          navigate(confirmationPath(data), { replace: true });
+          return;
+        }
+        setTransaction(data);
+        setStatus("ready");
+      })
+      .catch((error) => {
+        if (error.name === "CanceledError" || error.name === "AbortError") return;
+        setStatus("notfound");
+      });
 
-    fetchSnapToken();
+    return () => controller.abort();
   }, [transactionId, no_order, navigate]);
 
-  const totalAmount = useMemo(() => transaction?.total_amount || 0, [transaction]);
-  const totalService = useMemo(() => transaction?.total_service || 0, [transaction]);
-  const tickets = useMemo(() => transaction?.tickets || [], [transaction]);
+  // Hitung mundur batas pembayaran (expired_at dari backend, 15 menit)
+  const expiredAt = transaction?.expired_at;
+  useEffect(() => {
+    if (!expiredAt) return;
 
-  const handlePayment = useCallback((e) => {
-    e.preventDefault();
-    setIsLoading(true);
+    const tick = () => setSecondsLeft(Math.max(0, Math.floor((new Date(expiredAt).getTime() - Date.now()) / 1000)));
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, [expiredAt]);
 
-    if (!snapToken) {
-      Swal.fire({
-        icon: "error",
-        title: "Transaction Fail!",
-        background: "#000000",
-        color: "#ffffff",
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-      });
-      setIsLoading(false);
+  const isExpired = transaction?.status === "expire" || secondsLeft === 0;
+
+  const handlePayment = useCallback(() => {
+    setNotice(null);
+
+    if (!transaction?.snap_token) {
+      setNotice({ type: "error", text: "Token pembayaran tidak ditemukan. Silakan buat pesanan ulang." });
+      return;
+    }
+    if (!window.snap) {
+      setNotice({ type: "error", text: "Gateway pembayaran gagal dimuat. Muat ulang halaman lalu coba lagi." });
       return;
     }
 
-    window.snap.pay(snapToken, {
-      onSuccess(result) {
-        setIsLoading(false);
-        Swal.fire({
-          icon: "success",
-          title: "Payment Successful!",
-          text: "Your ticket has been sent to your email.",
-          background: "#000000",
-          color: "#ffffff",
-          confirmButtonColor: "#C41A20",
-          confirmButtonText: "OK"
-        }).then(() => {
-          navigate("/events");
-        });
+    setIsPaying(true);
+    window.snap.pay(transaction.snap_token, {
+      // Status final ditentukan webhook Midtrans; halaman konfirmasi menunggu hingga lunas
+      onSuccess() {
+        navigate(confirmationPath(transaction));
       },
-      onPending(result) {
-        Swal.fire({
-          icon: "info",
-          title: "Payment pending, please complete your payment.",
-          background: "#000000",
-          color: "#ffffff",
-          toast: true,
-          position: "top-end",
-          timer: 3000,
-          showConfirmButton: false,
-        });
-        setIsLoading(false);
+      onPending() {
+        navigate(confirmationPath(transaction));
       },
-      onError(result) {
-        Swal.fire({
-          icon: "error",
-          title: "Payment failed, please try again.",
-          background: "#000000",
-          color: "#ffffff",
-          toast: true,
-          position: "top-end",
-          timer: 3000,
-          showConfirmButton: false,
-        });
-        setIsLoading(false);
+      onError() {
+        setIsPaying(false);
+        setNotice({ type: "error", text: "Pembayaran gagal. Silakan coba lagi." });
       },
       onClose() {
-        Swal.fire({
-          icon: "warning",
-          title: "Payment popup closed without finishing.",
-          background: "#000000",
-          color: "#ffffff",
-          toast: true,
-          position: "top-end",
-          timer: 3000,
-          showConfirmButton: false,
-        });
-        setIsLoading(false);
+        setIsPaying(false);
+        setNotice({ type: "info", text: "Jendela pembayaran ditutup sebelum selesai." });
       },
     });
-  }, [snapToken, navigate]);
+  }, [transaction, navigate]);
 
   const handleCancel = async () => {
-    const result = await Swal.fire({
-      title: "Are you sure?",
-      text: "Do you really want to cancel this transaction?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#C41A20",
-      cancelButtonColor: "#4B5563",
-      background: "#000000",
-      color: "#ffffff",
-      confirmButtonText: "Yes, cancel it!",
-      cancelButtonText: "No, keep it",
-    });
-    if (!result.isConfirmed) return;
+    setIsCancelling(true);
     try {
-      setIsLoading(true);
-      await api.post(`/transaction/${transactionId}/${no_order}/cancel`);
-      Swal.fire({
-        icon: "success",
-        title: "Transaction cancelled.",
-        toast: true,
-        background: "#000000",
-        color: "#ffffff",
-        position: "top-end",
-        timer: 3000,
-        showConfirmButton: false,
-      });
-      navigate("/events");
+      await cancelTransaction(transactionId, no_order);
+      setIsCancelModalOpen(false);
+      setTransaction((prev) => ({ ...prev, status: "expire" }));
+      setNotice({ type: "info", text: "Pesanan dibatalkan dan kuota tiket telah dikembalikan." });
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: error?.response?.data?.error || "Failed to cancel transaction.",
-        toast: true,
-        background: "#000000",
-        color: "#ffffff",
-        position: "top-end",
-        timer: 3000,
-        showConfirmButton: false,
-      });
+      setNotice({ type: "error", text: error?.response?.data?.error || "Gagal membatalkan pesanan." });
+      setIsCancelModalOpen(false);
     } finally {
-      setIsLoading(false);
+      setIsCancelling(false);
     }
   };
 
-  if (!transaction) {
+  if (status !== "ready") {
     return (
-      <main className="flex flex-col min-h-screen bg-black text-white items-center justify-center font-headline text-2xl uppercase">
-        Loading Transaction...
-      </main>
+      <div className="flex flex-col min-h-screen bg-putih-butek text-ungu-heading">
+        <Navbar />
+        <main className="flex-1 flex flex-col items-center justify-center gap-5 px-4 py-24 text-center">
+          <p className="font-fraunces font-black text-2xl sm:text-3xl">
+            {status === "loading" ? "Memuat pesanan..." : "Pesanan tidak ditemukan."}
+          </p>
+          {status === "notfound" && (
+            <Link
+              to="/roadmap"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-kuning-tua border-2 border-ungu-heading font-dm-sans font-black text-xs uppercase tracking-wider shadow-[2px_3px_0_var(--color-ungu-heading)] hover:bg-kuning-muda transition-all"
+            >
+              &larr; Lihat Roadmap Event
+            </Link>
+          )}
+        </main>
+        <Footer />
+      </div>
     );
   }
 
-  const eventImage = transaction.event?.img 
-    ? `https://organizer.funnev.com/storage/${transaction.event.img}` 
-    : "https://placehold.co/600x400";
+  const tickets = transaction.tickets || [];
 
   return (
     <>
       <Helmet>
-        <title>KEENAN SOCIETY: Complete Payment</title>
-        <style>{`
-          ::-webkit-scrollbar { width: 8px; }
-          ::-webkit-scrollbar-track { background: #000000; }
-          ::-webkit-scrollbar-thumb { background: #C41A20; border-radius: 4px; }
-          ::-webkit-scrollbar-thumb:hover { background: #FF0000; }
-        `}</style>
+        <title>Pembayaran Pesanan - Soirée Dansante</title>
+        <meta name="robots" content="noindex,nofollow" />
       </Helmet>
 
-      <main className="font-body min-h-screen flex flex-col bg-black text-white">
+      <div className="flex flex-col min-h-screen bg-putih-butek text-ungu-heading selection:bg-kuning-tua selection:text-ungu-heading">
         <Navbar />
+        <SectionDivider />
 
-        <div className="flex-grow pt-[120px] pb-16 w-full px-6">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
-            
-            {/* Left Column */}
-            <div className="lg:col-span-7 space-y-12">
-              {/* Stepper */}
-              <div className="flex items-center justify-between w-full font-label text-sm font-bold tracking-wider relative mb-8">
-                <div className="absolute top-1/2 left-0 w-full h-[1px] bg-[#C41A20]/30 -z-10 -translate-y-1/2"></div>
-                <div className="flex flex-col items-center gap-2 bg-black px-4">
-                  <div className="w-8 h-8 rounded-full bg-[#C41A20] text-white flex items-center justify-center border-2 border-[#C41A20]">
-                    <MdCheck className="text-lg font-bold" />
-                  </div>
-                  <span className="text-[#C41A20] uppercase">Tickets</span>
-                </div>
-                <div className="flex flex-col items-center gap-2 bg-black px-4">
-                  <div className="w-8 h-8 rounded-full bg-[#C41A20] text-white flex items-center justify-center border-2 border-[#C41A20]">
-                    <MdCheck className="text-lg font-bold" />
-                  </div>
-                  <span className="text-[#C41A20] uppercase">Details</span>
-                </div>
-                <div className="flex flex-col items-center gap-2 bg-black px-4">
-                  <div className="w-8 h-8 rounded-full bg-[#FF0000] text-white flex items-center justify-center border-2 border-[#FF0000] shadow-[0_0_15px_rgba(255,0,0,0.5)]">
-                    3
-                  </div>
-                  <span className="text-[#FF0000] uppercase drop-shadow-[0_0_5px_rgba(255,0,0,0.5)]">Payment</span>
-                </div>
-              </div>
+        <main className="flex-1">
+          <TransactionStepper title={isExpired ? "Pesanan Kedaluwarsa" : "Selesaikan Pembayaran"} activeStep={3} />
 
-              <section className="space-y-6 bg-[#1A1A1A]/50 border border-[#C41A20]/30 p-8 shadow-[0_0_30px_rgba(196,26,32,0.1)]">
-                <div className="border-b border-[#C41A20]/30 pb-4">
-                  <h1 className="font-headline font-black text-2xl uppercase tracking-tighter text-[#FF0000]">
-                    Confirm Your Selection
-                  </h1>
-                  <p className="text-white/70 font-label tracking-widest text-xs uppercase mt-2">
-                    Review your order and proceed to payment
-                  </p>
-                </div>
+          <section className="w-full py-8 sm:py-10 md:py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-                <div className="space-y-4">
-                  {tickets.map((ticket, index) => (
-                    <div key={index} className="flex justify-between items-center bg-black/50 p-4 border border-white/10">
-                      <div className="flex items-center gap-4">
-                        <IoTicket className="text-2xl text-[#FF0000]" />
-                        <div>
-                          <h2 className="font-headline font-bold text-lg text-white uppercase">{ticket.type}</h2>
-                          <p className="text-white/50 text-xs font-label tracking-widest uppercase">Qty: {ticket.TransTick.qty}</p>
-                        </div>
+              {/* Kolom Kiri: Ringkasan Pesanan & Aksi */}
+              <div className="lg:col-span-7 space-y-6">
+                {notice && (
+                  <div
+                    role="alert"
+                    className={`p-3 rounded-xl border-2 font-dm-sans text-xs font-bold ${
+                      notice.type === "error" ? "bg-merah/10 border-merah text-merah" : "bg-kuning-tua/20 border-kuning-tua text-ungu-heading"
+                    }`}
+                  >
+                    {notice.text}
+                  </div>
+                )}
+
+                <div className="bg-cream-terang border-2 sm:border-[2.5px] border-ungu-heading rounded-3xl p-6 sm:p-8 shadow-[5px_6px_0_var(--color-ungu-heading)]">
+                  {/* Header + Countdown */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 mb-5 sm:mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full border border-ungu-heading/50 flex items-center justify-center shrink-0 bg-cream-tua/40">
+                        <LuReceipt className="w-5 h-5 text-ungu-heading stroke-[2.2]" aria-hidden="true" />
                       </div>
-                      <span className="font-label font-bold text-lg">
-                        IDR {ticket.TransTick.subtotal?.toLocaleString('id-ID') || 0}
-                      </span>
+                      <div>
+                        <span className="block font-dm-sans font-black text-xs tracking-widest text-ungu-heading/75 uppercase leading-none mb-1">
+                          NOMOR PESANAN
+                        </span>
+                        <span className="font-dm-sans font-black text-sm sm:text-base text-ungu-heading break-all">
+                          #{transaction.no_order}
+                        </span>
+                      </div>
                     </div>
-                  ))}
-                  
-                  <div className="flex justify-between items-center bg-black/50 p-4 border border-white/10">
-                    <span className="font-label font-bold text-white/70 uppercase">Service Fee</span>
-                    <span className="font-label font-bold text-lg">IDR {totalService?.toLocaleString('id-ID') || 0}</span>
+
+                    <div
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-ungu-heading font-dm-sans font-black text-xs ${
+                        isExpired ? "bg-merah text-cream-terang" : "bg-kuning-tua text-ungu-heading"
+                      }`}
+                    >
+                      <LuClock className="w-3.5 h-3.5 stroke-[2.5]" aria-hidden="true" />
+                      <span>{isExpired ? "KEDALUWARSA" : `Bayar dalam ${formatCountdown(secondsLeft)}`}</span>
+                    </div>
+                  </div>
+
+                  {/* Rincian Tiket */}
+                  <h2 className="font-dm-sans font-black text-xs sm:text-[13px] tracking-wider uppercase text-ungu-heading mb-3">
+                    RINCIAN ITEM PEMBELIAN
+                  </h2>
+                  <div className="space-y-3 mb-4">
+                    {tickets.map((ticket) => (
+                      <div key={ticket.id} className="flex items-start justify-between gap-4 pb-3 border-b border-ungu-heading/15">
+                        <div>
+                          <p className="font-dm-sans font-black text-sm sm:text-base text-ungu-heading leading-snug">
+                            {ticket.TransTick?.qty}x {ticket.type}
+                          </p>
+                          <p className="font-dm-sans text-xs text-gray-custom/80 mt-0.5">
+                            {formatRupiah(ticket.price)} / tiket
+                          </p>
+                        </div>
+                        <span className="font-dm-sans font-black text-sm sm:text-base text-ungu-heading shrink-0">
+                          {formatRupiah(ticket.TransTick?.subtotal)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex items-start justify-between gap-4 text-xs sm:text-[13px] font-dm-sans pb-5">
+                    <span className="text-gray-custom">Biaya Layanan</span>
+                    <span className="font-bold text-ungu-heading shrink-0">{formatRupiah(transaction.total_service)}</span>
+                  </div>
+
+                  {/* Data Pembeli */}
+                  <div className="bg-cream-tua/50 border border-ungu-heading/40 rounded-2xl p-4 sm:p-5 mb-5 space-y-2.5">
+                    {[
+                      ["Nama Pemesan", transaction.name],
+                      ["Email", transaction.email],
+                      ["Nomor WhatsApp", transaction.phone || "-"],
+                    ].map(([label, value]) => (
+                      <div key={label} className="flex items-center justify-between gap-3 text-xs sm:text-[13px] font-dm-sans">
+                        <span className="text-gray-custom shrink-0">{label}</span>
+                        <span className="font-bold text-ungu-heading text-right break-all">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Total */}
+                  <div className="bg-cream-tua/70 border-2 border-ungu-heading rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-3">
+                    <span className="font-dm-sans font-black text-[10px] sm:text-[11px] tracking-wider uppercase text-ungu-heading/70">
+                      TOTAL PEMBAYARAN
+                    </span>
+                    <span className="font-fraunces font-black text-2xl sm:text-3xl text-ungu-heading tracking-tight leading-none">
+                      {formatRupiah(transaction.total_amount)}
+                    </span>
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-[#C41A20]/30 space-y-4">
-                  <h2 className="font-headline font-bold text-lg text-[#FF0000] uppercase tracking-widest">Buyer Information</h2>
-                  <div className="grid grid-cols-2 gap-4 text-sm font-body">
-                    <div>
-                      <p className="text-white/50 tracking-widest uppercase text-xs font-label">Name</p>
-                      <p className="font-bold text-white">{transaction.name}</p>
-                    </div>
-                    <div>
-                      <p className="text-white/50 tracking-widest uppercase text-xs font-label">Email</p>
-                      <p className="font-bold text-white">{transaction.email}</p>
-                    </div>
-                    <div>
-                      <p className="text-white/50 tracking-widest uppercase text-xs font-label">Phone</p>
-                      <p className="font-bold text-white">{transaction.phone || '-'}</p>
-                    </div>
+                {/* Aksi */}
+                {isExpired ? (
+                  <div className="flex flex-wrap items-center gap-3">
+                    <p className="font-dm-sans text-sm text-gray-custom w-full">
+                      Batas waktu pembayaran telah habis atau pesanan dibatalkan. Silakan buat pesanan baru.
+                    </p>
+                    {transaction.event && (
+                      <Link
+                        to={eventPath(transaction.event)}
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-kuning-tua border-2 border-ungu-heading font-dm-sans font-black text-xs uppercase tracking-wider shadow-[3px_3px_0_var(--color-ungu-heading)] hover:bg-kuning-muda transition-all"
+                      >
+                        Pesan Ulang Tiket
+                      </Link>
+                    )}
                   </div>
-                </div>
-
-                <div className="pt-6 border-t border-[#C41A20]/30 flex justify-between items-end">
-                  <span className="font-label font-bold text-white/70 uppercase tracking-widest">Total Amount</span>
-                  <span className="font-headline font-black text-3xl text-[#FF0000] drop-shadow-[0_0_8px_rgba(255,0,0,0.5)]">
-                    IDR {totalAmount?.toLocaleString('id-ID') || 0}
-                  </span>
-                </div>
-              </section>
-              <div className="flex gap-4 w-full">
-                <button 
-                  onClick={handlePayment}
-                  disabled={isLoading || timeLeft === "Expired"}
-                  className="flex-1 py-4 font-label font-bold text-lg uppercase tracking-widest transition-all duration-300 bg-gradient-to-r from-[#C41A20] to-[#FF0000] text-white hover:shadow-[0_0_20px_rgba(255,0,0,0.6)] hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isLoading ? "Loading..." : (timeLeft && timeLeft !== "Expired" ? `Pay Now (${timeLeft})` : "Pay Now")}
-                </button>
-                <button 
-                  onClick={handleCancel}
-                  disabled={isLoading}
-                  className="px-8 py-4 font-label font-bold text-lg uppercase tracking-widest transition-all duration-300 bg-[#4B5563] text-white hover:bg-[#374151] hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Cancel
-                </button>
+                ) : (
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      type="button"
+                      onClick={handlePayment}
+                      disabled={isPaying}
+                      className="flex-1 py-3.5 rounded-full bg-kuning-tua hover:bg-kuning-muda border-2 border-ungu-heading shadow-[3px_3px_0_var(--color-ungu-heading)] active:translate-y-0.5 text-ungu-heading font-dm-sans font-black text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer disabled:opacity-60 disabled:cursor-wait"
+                    >
+                      {isPaying ? "Membuka Pembayaran..." : "Bayar Sekarang"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsCancelModalOpen(true)}
+                      disabled={isPaying}
+                      className="px-7 py-3.5 rounded-full bg-cream-terang hover:bg-cream-tua border-2 border-ungu-heading text-ungu-heading font-dm-sans font-bold text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer disabled:opacity-40"
+                    >
+                      Batalkan Pesanan
+                    </button>
+                  </div>
+                )}
               </div>
+
+              {/* Kolom Kanan: Info Event */}
+              <PaymentEventCard event={transaction.event} />
             </div>
+          </section>
 
-            {/* Right Column */}
-            <div className="lg:col-span-5 relative">
-              <div className="sticky top-[100px] bg-[#1A1A1A]/80 backdrop-blur-xl border border-white/10 p-6 lg:p-8 space-y-6">
-                <img 
-                  className="w-full h-48 object-cover rounded-sm border border-white/10" 
-                  alt={transaction.event?.event} 
-                  src={eventImage} 
-                />
-                <div className="space-y-4">
-                  <h4 className="font-headline font-black text-2xl text-[#FF0000] uppercase tracking-tight">{transaction.event?.event}</h4>
-                  
-                  <div className="flex items-center gap-3 text-white/70 font-body border-b border-white/10 pb-4">
-                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                      <MdCheck className="text-[#FF0000]" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-label uppercase tracking-widest text-white/50">Organizer</p>
-                      <p className="font-bold">{transaction.event?.organizer}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 text-white/70 font-body border-b border-white/10 pb-4">
-                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                      <MdCalendarToday className="text-[#FF0000]" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-label uppercase tracking-widest text-white/50">Date & Time</p>
-                      <p className="font-bold">{transaction.event?.start_time}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 text-white/70 font-body">
-                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                      <MdLocationOn className="text-[#FF0000]" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-label uppercase tracking-widest text-white/50">Location</p>
-                      <p className="font-bold">{transaction.event?.location}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
+          <SectionDivider />
+        </main>
 
         <Footer />
-      </main>
+      </div>
+
+      {/* Modal Konfirmasi Pembatalan */}
+      {isCancelModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs" role="dialog" aria-modal="true">
+          <div className="bg-cream-terang border-2 border-ungu-heading rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-[6px_6px_0_var(--color-ungu-heading)]">
+            <h3 className="font-fraunces font-black text-xl text-ungu-heading mb-2">Batalkan pesanan ini?</h3>
+            <p className="font-dm-sans text-xs sm:text-sm text-ungu-heading/85 leading-relaxed mb-5">
+              Kuota tiket akan dikembalikan dan pesanan tidak dapat dibayar lagi.
+            </p>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={handleCancel}
+                disabled={isCancelling}
+                className="flex-1 font-dm-sans font-black text-xs uppercase bg-merah text-cream-terang py-3 rounded-full border-2 border-ungu-heading shadow-[2px_2px_0_var(--color-ungu-heading)] active:translate-y-0.5 cursor-pointer transition-all disabled:opacity-60"
+              >
+                {isCancelling ? "Membatalkan..." : "Ya, Batalkan"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsCancelModalOpen(false)}
+                disabled={isCancelling}
+                className="px-4 py-3 font-dm-sans font-bold text-xs text-ungu-heading/70 hover:text-ungu-heading cursor-pointer"
+              >
+                Kembali
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

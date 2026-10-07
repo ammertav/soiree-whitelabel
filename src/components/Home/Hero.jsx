@@ -21,7 +21,7 @@ const HERO_DATA = {
   ticketStatus: "Presale 1 kuota terbatas • Tiket resmi bergaransi",
   ctaText: "AMANKAN TIKETMU SEKARANG",
   ctaDesktopText: "AMANKAN TIKETMU",
-  ctaLink: "/pemesanan",
+  ctaLink: "/roadmap",
   lineupText: "JELAJAHI LINEUP",
   lineupLink: "/lineup",
   festivalFact: "Festival Musik Outdoor 2 Hari • 4 Panggung • 60 Band",

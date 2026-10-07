@@ -46,7 +46,7 @@ export default function LineupTicketCTA() {
 
         {/* Tombol CTA Pesan Tiket */}
         <Link
-          to="/pemesanan"
+          to="/roadmap"
           className="inline-flex items-center justify-center gap-2.5 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-hijau border-2 border-ungu-heading text-cream-tua shadow-[4px_4.5px_0_var(--color-ungu-heading)] hover:-translate-y-0.5 hover:shadow-[5px_6px_0_var(--color-ungu-heading)] active:translate-y-0 active:shadow-[2px_2px_0_var(--color-ungu-heading)] transition-all mt-8 sm:mt-10 cursor-pointer"
         >
           {/* Ticket With Star Icon */}

@@ -1,49 +1,19 @@
-import {
-  TICKETS_CATALOG,
-  VALID_VOUCHERS,
-  MAX_TICKETS_PER_TRANSACTION,
-} from "../data/pemesananData";
-
+import api from "../api";
+import { MAX_TICKETS_PER_TRANSACTION } from "../data/eventDetailData";
 import { formatRupiah } from "../utils";
 
-export { formatRupiah };
+export { formatRupiah, MAX_TICKETS_PER_TRANSACTION };
 
-export const getTicketsCatalog = () => TICKETS_CATALOG;
-
-export const applyVoucherCode = (code, subtotal) => {
-  const cleanCode = (code || "").trim().toUpperCase();
-  const voucher = VALID_VOUCHERS[cleanCode];
-
-  if (!voucher) {
-    return {
-      valid: false,
-      discount: 0,
-      message: "Kode promo tidak ditemukan atau sudah kedaluwarsa.",
-    };
-  }
-
-  if (subtotal < voucher.minPurchase) {
-    return {
-      valid: false,
-      discount: 0,
-      message: `Minimal transaksi untuk voucher ${cleanCode} adalah ${formatRupiah(voucher.minPurchase)}.`,
-    };
-  }
-
-  return {
-    valid: true,
-    discount: voucher.discountAmount,
-    voucher,
-    message: `Voucher ${cleanCode} berhasil digunakan (-${formatRupiah(voucher.discountAmount)}).`,
-  };
-};
-
-export const calculateOrderTotals = (ticketQuantities, discount = 0) => {
+/**
+ * Rincian pesanan dari tiket event (backend) dan kuantitas per ticket.id.
+ * Biaya layanan dihitung backend saat transaksi dibuat, jadi tidak termasuk di sini.
+ */
+export const calculateOrderTotals = (tickets = [], ticketQuantities = {}) => {
   let subtotal = 0;
   let totalTickets = 0;
   const selectedItems = [];
 
-  for (const ticket of TICKETS_CATALOG) {
+  for (const ticket of tickets) {
     const qty = ticketQuantities[ticket.id] || 0;
     if (qty > 0) {
       subtotal += ticket.price * qty;
@@ -56,29 +26,18 @@ export const calculateOrderTotals = (ticketQuantities, discount = 0) => {
     }
   }
 
-  const effectiveDiscount = Math.min(discount, subtotal);
-  const totalPayment = Math.max(0, subtotal - effectiveDiscount);
-
   return {
     subtotal,
-    discount: effectiveDiscount,
-    totalPayment,
     totalTickets,
     selectedItems,
   };
 };
 
-export const submitTicketOrder = async (orderPayload) => {
-  // Simulasi pesanan lokal (backend API belum tersedia)
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        success: true,
-        orderId: `TKT-${Date.now().toString().slice(-6)}`,
-        data: orderPayload,
-      });
-    }, 400);
-  });
+/**
+ * Buat transaksi di backend. Mengembalikan { snapToken, transaction, guestId }.
+ * Payload: { event_id, tickets: [{ ticket_id, qty }], name, email, phone, form_answers }
+ */
+export const createTransaction = async (payload) => {
+  const { data } = await api.post("/posttransaction", payload);
+  return data;
 };
-
-export { MAX_TICKETS_PER_TRANSACTION };

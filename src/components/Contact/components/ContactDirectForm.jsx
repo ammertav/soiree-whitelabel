@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { whatsappUrl } from "../../../utils";
 import {
   LuMessageSquareText,
   LuMail,
@@ -27,6 +28,7 @@ export default function ContactDirectForm() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -42,6 +44,26 @@ export default function ContactDirectForm() {
       return;
     }
 
+    // Tidak ada backend untuk form kontak: pesan dikirim lewat WhatsApp panitia
+    const message = [
+      "Halo panitia Soirée Dansante, saya ingin bertanya:",
+      "",
+      `Nama: ${formData.name}`,
+      `WhatsApp: ${formData.whatsapp || "-"}`,
+      `Email: ${formData.email}`,
+      `Kategori: ${formData.category || "-"}`,
+      "",
+      formData.message,
+    ].join("\n");
+
+    const url = whatsappUrl(message);
+    if (!url) {
+      setSubmitError("Kanal WhatsApp panitia belum tersedia. Silakan hubungi kami lewat email.");
+      return;
+    }
+
+    window.open(url, "_blank", "noopener,noreferrer");
+    setSubmitError(null);
     setIsSubmitted(true);
     setFormData({
       name: "",
@@ -81,9 +103,9 @@ export default function ContactDirectForm() {
         >
           <LuCircleCheck className="w-5 h-5 text-hijau shrink-0 mt-0.5 stroke-[2.3]" />
           <div className="flex-1 font-dm-sans text-sm sm:text-[14.5px] text-ungu-heading">
-            <p className="font-bold">Pesan Anda Berhasil Terkirim!</p>
+            <p className="font-bold">WhatsApp Telah Dibuka</p>
             <p className="text-gray-custom mt-0.5">
-              Tim panitia Soirée Dansante akan menindaklanjuti dan merespons via email atau WhatsApp sesegera mungkin.
+              Pesan Anda sudah tersusun di WhatsApp. Tekan tombol kirim di aplikasi WhatsApp agar pesan sampai ke panitia.
             </p>
           </div>
           <button
@@ -93,6 +115,12 @@ export default function ContactDirectForm() {
           >
             Tutup
           </button>
+        </div>
+      )}
+
+      {submitError && (
+        <div role="alert" className="mb-6 p-4 rounded-2xl bg-merah/10 border-2 border-merah font-dm-sans text-sm font-bold text-merah">
+          {submitError}
         </div>
       )}
 
@@ -242,7 +270,7 @@ export default function ContactDirectForm() {
             className="inline-flex items-center gap-2.5 bg-kuning-tua hover:bg-kuning-muda active:translate-x-0.5 active:translate-y-0.5 text-ungu-heading border-2 border-ungu-heading rounded-full px-7 sm:px-8 py-3.5 sm:py-4 font-dm-sans font-black text-xs sm:text-sm tracking-wider uppercase shadow-[3px_4px_0_var(--color-ungu-heading)] active:shadow-[1px_1px_0_var(--color-ungu-heading)] transition-all cursor-pointer"
           >
             <LuMail className="w-4.5 h-4.5 stroke-[2.5]" aria-hidden="true" />
-            <span>KIRIM PESAN SEKARANG</span>
+            <span>KIRIM VIA WHATSAPP</span>
           </button>
         </div>
       </form>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { LuLandmark, LuTicket } from "react-icons/lu";
+import { LuLandmark } from "react-icons/lu";
 import { BsMusicNoteList } from "react-icons/bs";
 import SectionDivider from "../SectionDivider";
 
@@ -15,11 +15,6 @@ const MAIN_EVENT_DATA = {
   dateVenue: "16–17 April 2027 · PRPP Grand Maerakaca, Semarang",
   featurePills: ["60 BAND", "2 HARI", "4 PANGGUNG", "SEMARANG"],
   quote: "“Setiap suara punya tempat.”",
-  primaryCta: {
-    labelLine1: "AMANKAN",
-    labelLine2: "TIKETMU",
-    to: "/pemesanan",
-  },
   secondaryCta: {
     labelLine1: "LIHAT LINEUP",
     labelLine2: "LENGKAP",
@@ -109,19 +104,7 @@ export default function RoadmapMainEvent() {
 
         {/* Tombol Aksi Ganda CTA (Diperbesar Mantap & Proporsional) */}
         <div className="mt-8 sm:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4 md:gap-5 w-full max-w-lg">
-          {/* CTA Primer: Amankan Tiketmu */}
-          <Link
-            to={MAIN_EVENT_DATA.primaryCta.to}
-            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2.5 sm:gap-3 px-6 sm:px-8 py-3 sm:py-3.5 min-h-[52px] sm:min-h-[58px] rounded-full bg-kuning-muda hover:bg-kuning-tua text-ungu-heading border-2 border-ungu-heading shadow-[3.5px_3.5px_0_var(--color-ungu-heading)] sm:shadow-[4px_4px_0_var(--color-ungu-heading)] transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer select-none"
-          >
-            <LuTicket className="w-5 h-5 stroke-[2.2] text-ungu-heading shrink-0" aria-hidden="true" />
-            <span className="font-dm-sans font-black text-xs sm:text-[13px] uppercase tracking-wider leading-[1.18] text-left">
-              {MAIN_EVENT_DATA.primaryCta.labelLine1}
-              <br />
-              {MAIN_EVENT_DATA.primaryCta.labelLine2}
-            </span>
-          </Link>
-
+          {/* CTA tiket event utama disembunyikan: pembukaan tiket festival belum diumumkan */}
           {/* CTA Sekunder: Lihat Lineup Lengkap */}
           <Link
             to={MAIN_EVENT_DATA.secondaryCta.to}

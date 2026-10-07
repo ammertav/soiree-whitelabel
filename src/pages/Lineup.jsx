@@ -9,6 +9,11 @@ import LineupRosterBanner from "../components/Lineup/LineupRosterBanner";
 import LineupCatalogGrid from "../components/Lineup/LineupCatalogGrid";
 import LineupStages from "../components/Lineup/LineupStages";
 import LineupTicketCTA from "../components/Lineup/LineupTicketCTA";
+import LineupComingSoon from "../components/Lineup/LineupComingSoon";
+
+// Lineup resmi belum diumumkan: tampilkan halaman coming soon.
+// Ubah ke true untuk menampilkan section lineup lengkap (data saat ini masih usulan kurasi).
+const SHOW_FULL_LINEUP = false;
 
 export default function Lineup() {
   // Shared state untuk filter & search
@@ -63,6 +68,10 @@ export default function Lineup() {
         <Navbar />
 
         <main className="flex-1">
+          {!SHOW_FULL_LINEUP && <LineupComingSoon />}
+
+          {SHOW_FULL_LINEUP && (
+          <>
           {/* Section 1: Hero Line Up & Jadwal Penampil */}
           <LineupHero />
 
@@ -98,6 +107,8 @@ export default function Lineup() {
 
           {/* Section 6: CTA Pembelian Tiket Festival */}
           <LineupTicketCTA />
+          </>
+          )}
         </main>
 
         <Footer />

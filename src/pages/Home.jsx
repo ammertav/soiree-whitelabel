@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -10,8 +11,31 @@ import Tickets from "../components/Home/Tickets";
 import Merchandise from "../components/Home/Merchandise";
 import InstalasiGerbang from "../components/Home/InstalasiGerbang";
 import Partners from "../components/Home/Partners";
+import { getNewestEvents } from "../services/eventService";
+import { sortByStartTime } from "../utils";
 
 function Home() {
+  // Event aktif milik organizer, diambil sekali untuk section Roadmap & Tickets (urut dari yang terdekat)
+  const [events, setEvents] = useState([]);
+  const [isLoadingEvents, setIsLoadingEvents] = useState(true);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    getNewestEvents({ signal: controller.signal })
+      .then((data) => {
+        setEvents(sortByStartTime(data));
+        setIsLoadingEvents(false);
+      })
+      .catch((error) => {
+        if (error.name === "CanceledError" || error.name === "AbortError") return;
+        console.error("Failed to fetch newest events:", error);
+        setIsLoadingEvents(false);
+      });
+
+    return () => controller.abort();
+  }, []);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Event",
@@ -52,10 +76,10 @@ function Home() {
         <main className="flex-1">
           <Hero />
           <FaktaFestival />
-          <Roadmap />
+          <Roadmap events={events} isLoading={isLoadingEvents} />
           <Manifesto />
           <ArtistLineup />
-          <Tickets />
+          <Tickets activeEvent={events[0]} isLoading={isLoadingEvents} />
           <Merchandise />
           <InstalasiGerbang />
           <Partners />

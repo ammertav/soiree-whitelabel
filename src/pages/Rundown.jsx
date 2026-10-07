@@ -24,7 +24,7 @@ export default function Rundown() {
       }
     },
     "description": "Susunan jam tampil dan jadwal panggung festival musik Soirée Dansante 2027 segera hadir. Dapatkan estimasi waktu dan pengingat rilis resmi.",
-    "url": "https://soireedansante.com/rundown"
+    "url": "https://soireedansante.id/rundown"
   };
 
   return (

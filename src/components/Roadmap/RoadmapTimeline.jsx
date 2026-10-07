@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { HiCheck, HiBolt, HiClock, HiChevronDoubleDown } from "react-icons/hi2";
-import { ROADMAP_MILESTONES } from "../../data/roadmapData";
+import { toRoadmapMilestones } from "../../data/roadmapData";
+import { getNewestEvents } from "../../services/eventService";
 import SectionDivider from "../SectionDivider";
 import nodeEyeStar from "../../assets/soiree-dansante-assets/objects/11-mata-bintang.png";
 
@@ -9,7 +11,7 @@ function TimelineCard({ item, renderStatusIcon }) {
   return (
     <div className="relative w-full max-w-[480px]">
       {/* Bintang Pink Didekatkan Tepat di Atas Sudut Kanan Card 2 Sesuai Desain */}
-      {item.id === 2 && (
+      {item.position === 2 && (
         <span
           className="absolute -top-7 right-0 text-pink-custom text-3xl select-none pointer-events-none z-30"
           aria-hidden="true"
@@ -19,12 +21,12 @@ function TimelineCard({ item, renderStatusIcon }) {
       )}
 
       {/* Label Vertikal Hijau Melekat di Sisi Kiri Card 3 Sesuai Desain */}
-      {item.id === 3 && (
+      {item.position === 3 && (
         <div
           className="hidden sm:block absolute -left-3 top-1/2 -translate-y-1/2 px-0.5 py-1.5 bg-hijau/85 border border-ungu-heading/40 rounded text-[8px] font-mono font-bold text-cream-terang [writing-mode:vertical-lr] tracking-widest select-none z-30 pointer-events-none"
           aria-hidden="true"
         >
-          RO-03
+          RO-{item.number}
         </div>
       )}
 
@@ -93,6 +95,27 @@ function TimelineArtwork({ item }) {
 }
 
 export default function RoadmapTimeline() {
+  const [milestones, setMilestones] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Milestone dari event aktif milik organizer
+  useEffect(() => {
+    const controller = new AbortController();
+
+    getNewestEvents({ signal: controller.signal })
+      .then((events) => {
+        setMilestones(toRoadmapMilestones(events));
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        if (error.name === "CanceledError" || error.name === "AbortError") return;
+        console.error("Failed to fetch roadmap events:", error);
+        setIsLoading(false);
+      });
+
+    return () => controller.abort();
+  }, []);
+
   const renderStatusIcon = (statusType) => {
     if (statusType === "completed") {
       return <HiCheck className="w-3.5 h-3.5 shrink-0 stroke-[2.5]" aria-hidden="true" />;
@@ -130,7 +153,13 @@ export default function RoadmapTimeline() {
 
         {/* Daftar Milestones Roadmap */}
         <div className="space-y-14 sm:space-y-18 md:space-y-24 relative z-10">
-          {ROADMAP_MILESTONES.map((item) => {
+          {milestones.length === 0 && (
+            <div className="relative z-20 max-w-xl mx-auto bg-cream-terang border-2 border-dashed border-ungu-heading/40 rounded-[22px] p-8 text-center font-dm-sans text-sm font-bold text-ungu-heading/60">
+              {isLoading ? "Memuat rangkaian event..." : "Rangkaian event berikutnya segera diumumkan."}
+            </div>
+          )}
+
+          {milestones.map((item) => {
             const isLeft = item.cardPosition === "left";
 
             return (

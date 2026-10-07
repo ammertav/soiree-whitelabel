@@ -1,5 +1,7 @@
 import { LuMessageSquareText, LuMail, LuCamera, LuArrowRight, LuLandmark } from "react-icons/lu";
 import { TbBuildingStadium } from "react-icons/tb";
+import { whatsappDisplayNumber, whatsappUrl } from "../../utils";
+import { INSTAGRAM } from "../../data/socialLinks";
 
 // Data kurasi kanal kontak dan informasi festival
 const CONTACT_CHANNELS = [
@@ -7,12 +9,12 @@ const CONTACT_CHANNELS = [
     id: "whatsapp",
     eyebrow: "FAST RESPONSE CS",
     title: "WhatsApp Hotline",
-    primaryValue: "+62 812–3456–7890",
+    primaryValue: whatsappDisplayNumber() || "Segera diumumkan",
     iconBg: "bg-kuning-tua",
     icon: <LuMessageSquareText className="w-5 h-5 stroke-[2.3]" aria-hidden="true" />,
     footerText: "Aktif 09:00 – 21:00 WIB",
     footerType: "arrow",
-    href: "https://wa.me/6281234567890",
+    href: whatsappUrl() || undefined,
     isExternal: true,
   },
   {
@@ -32,12 +34,12 @@ const CONTACT_CHANNELS = [
     id: "instagram",
     eyebrow: "KANAL VISUAL & CERITA",
     title: "Instagram Media",
-    primaryValue: "@soireedansante.fest",
+    primaryValue: INSTAGRAM.handle,
     iconBg: "bg-kuning-muda",
     icon: <LuCamera className="w-5 h-5 stroke-[2.3]" aria-hidden="true" />,
     footerText: "Update Harian & DM Darurat",
     footerType: "arrow",
-    href: "https://instagram.com/soireedansante.fest",
+    href: INSTAGRAM.url,
     isExternal: true,
   },
   {

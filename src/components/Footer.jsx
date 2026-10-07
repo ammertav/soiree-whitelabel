@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
+import { INSTAGRAM } from "../data/socialLinks";
+import { whatsappUrl } from "../utils";
 import logoNavbar from "../assets/images/navbar/logo-navbar.png";
 
 export default function Footer() {
   const socialLinks = [
     {
       name: "Instagram",
-      href: "https://instagram.com",
+      href: INSTAGRAM.url,
       icon: (
         <svg
           className="w-4 h-4"
@@ -143,23 +145,12 @@ export default function Footer() {
             </h4>
 
             <div className="flex flex-col gap-1.5 font-dm-sans text-xs sm:text-sm text-cream-tua/90 font-medium">
+              {/* FAQ, Syarat & Ketentuan, dan Kebijakan Privasi ditambahkan setelah halamannya dibuat */}
               <Link
-                to="/faq"
+                to="/contact"
                 className="hover:text-kuning-tua transition-colors py-0.5"
               >
-                FAQ &amp; Panduan Penonton
-              </Link>
-              <Link
-                to="/terms"
-                className="hover:text-kuning-tua transition-colors py-0.5"
-              >
-                Syarat &amp; Ketentuan
-              </Link>
-              <Link
-                to="/privacy"
-                className="hover:text-kuning-tua transition-colors py-0.5"
-              >
-                Kebijakan Privasi
+                Hubungi Panitia
               </Link>
             </div>
           </div>
@@ -174,11 +165,12 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Floating Chat Button */}
+      {/* Floating Chat Button (WhatsApp panitia dari VITE_WHATSAPP_NUMBER; tidak tampil jika kosong) */}
+      {whatsappUrl() && (
       <button
         type="button"
         aria-label="Bantuan Chat"
-        onClick={() => window.open("https://wa.me/6282227781913", "_blank")}
+        onClick={() => window.open(whatsappUrl(), "_blank", "noopener,noreferrer")}
         className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full border-2 border-ungu-heading bg-hijau text-cream-tua flex items-center justify-center shadow-[3px_4px_0_var(--color-ungu-heading)] hover:scale-105 active:scale-95 transition-transform cursor-pointer"
       >
         <svg
@@ -195,6 +187,7 @@ export default function Footer() {
           <line x1="8" y1="13" x2="14" y2="13" />
         </svg>
       </button>
+      )}
     </footer>
   );
 }
