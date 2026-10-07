@@ -6,7 +6,6 @@ import SpotifyMiniPlayer from "./components/common/SpotifyMiniPlayer";
 const Home = lazy(() => import("./pages/Home"));
 const EventDetail = lazy(() => import("./pages/EventDetail"));
 const Transaction = lazy(() => import("./pages/Transaction"));
-const CobaMaps = lazy(() => import("./pages/CobaMaps"));
 const Lineup = lazy(() => import("./pages/Lineup"));
 const KatalogMerchandise = lazy(() => import("./pages/KatalogMerchandise"));
 const Roadmap = lazy(() => import("./pages/Roadmap"));
@@ -47,7 +46,6 @@ function App() {
         <Route path="/event/:id/:slug" element={<EventDetail />} />
         <Route path="/transaction/:transactionId/:no_order" element={<Transaction />} />
         <Route path="/transaction/:transactionId/:no_order/confirmation" element={<TransactionConfirmation />} />
-        <Route path="/cobamaps" element={<CobaMaps />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

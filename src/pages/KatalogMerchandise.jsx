@@ -17,7 +17,7 @@ export default function KatalogMerchandise() {
     "@type": "CollectionPage",
     "name": "Katalog Merchandise Resmi - Soirée Dansante Semarang 2027",
     "description": "Koleksi merchandise resmi Soirée Dansante Semarang 2027. Kaos, tote bag, enamel pin, dan aksesori edisi terbatas.",
-    "url": "https://soireedansante.id/katalog-merchandise"
+    "url": "https://soireedansante.com/katalog-merchandise"
   };
 
   return (
