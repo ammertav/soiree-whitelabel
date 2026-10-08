@@ -1,215 +1,227 @@
 import { Link } from "react-router-dom";
-import { HiSparkles, HiOutlineCalendarDays, HiOutlineMapPin } from "react-icons/hi2";
+import {
+  LuCalendar,
+  LuMapPin,
+  LuZap,
+  LuTicket,
+  LuCompass,
+  LuMusic,
+  LuUsers,
+  LuVolume2,
+} from "react-icons/lu";
 import SectionDivider from "../SectionDivider";
-import logoSoiree from "../../assets/images/hero/logo-web.png";
-import stageImage from "../../assets/images/hero/node-45.png";
-import ornamenEye from "../../assets/images/hero/ornamen-mata-bintang-51.png";
-import catProscenium from "../../assets/soiree-dansante-assets/objects/01-panggung-kepala-kucing.png";
 
-// Konfigurasi data terpusat (Single Source of Truth)
+// Aset resmi Soirée Dansante sesuai panduan arsitektur
+import mainStageMockup from "../../assets/soiree-dansante-assets/mockup/main-stage-mockup.png";
+import wordmarkLogo from "../../assets/soiree-dansante-assets/logo/wordmark-stacked-887x444.png";
+import wingedCat from "../../assets/soiree-dansante-assets/objects/08-kucing-bersayap.png";
+import toastingCats from "../../assets/soiree-dansante-assets/objects/04-bersulang.png";
+
+// Single Source of Truth data Hero
 const HERO_DATA = {
-  badgeCategoryLines: ["PANGGUNG SETIAP", "SUARA"],
-  badgeTaglineLines: ["setiap suara punya", "tempat"],
-  titleLine1: "SOIRÉE",
-  titleLine2: "DANSANTE",
+  presaleBadge: "PRESALE TIKET SEDANG DIBUKA • Menuju April 2027",
+  manifestoLabel: "MANIFESTO FESTIVAL RESMI",
+  title: "Panggung Setiap Suara",
   tagline: "“Setiap suara punya tempat.”",
-  dates: "16–17 April 2027",
-  dateLines: ["16–17 April", "2027"],
-  venue: "PRPP Semarang",
-  venueLines: ["PRPP", "Semarang"],
-  artworkLabel: "Proscenium Teater Kucing Ajaib",
-  ticketStatus: "Presale 1 kuota terbatas • Tiket resmi bergaransi",
-  ctaText: "AMANKAN TIKETMU SEKARANG",
-  ctaDesktopText: "AMANKAN TIKETMU",
-  ctaLink: "/roadmap",
-  lineupText: "JELAJAHI LINEUP",
-  lineupLink: "/lineup",
-  festivalFact: "Festival Musik Outdoor 2 Hari • 4 Panggung • 60 Band",
+  description:
+    "Dua hari perayaan teatrikal akbar di PRPP Semarang menyatukan denyut musik alternatif, tari topeng pesisir, serta 60 kurasi musisi independen Jawa Tengah dan panggung nasional.",
+  pills: [
+    {
+      id: "date",
+      icon: LuCalendar,
+      text: "16–17 APRIL 2027",
+      variant: "cream",
+    },
+    {
+      id: "venue",
+      icon: LuMapPin,
+      text: "PRPP SEMARANG",
+      variant: "cream",
+    },
+    {
+      id: "stages",
+      icon: LuZap,
+      text: "4 PANGGUNG SPEKTAKULER",
+      variant: "purple",
+    },
+  ],
+  ctaTicket: {
+    text: "AMANKAN TIKETMU",
+    to: "/roadmap",
+  },
+  ctaLineup: {
+    text: "JELAJAHI LINEUP & ROADMAP",
+    to: "/lineup",
+  },
+  stats: [
+    { id: "musicians", icon: LuMusic, text: "60 Musisi Terpilih" },
+    { id: "audience", icon: LuUsers, text: "15.000 Kawan Dansa" },
+    { id: "sound", icon: LuVolume2, text: "Tata Suara 100k Watt" },
+  ],
 };
 
 export default function Hero() {
   return (
-    <section className="relative w-full bg-hijau-butek overflow-hidden">
-      {/* ========================================================
-          1. TAMPILAN MOBILE (Persis Desain Screenshot Mobile)
-          ======================================================== */}
-      <div className="relative flex flex-col items-center text-center px-4 pt-6 pb-6 md:hidden overflow-hidden">
-        {/* Soft Ambient Radial Lights (Sesuai Screenshot) */}
-        <div className="absolute top-10 -left-16 w-52 h-52 bg-tosca-muda/15 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
-        <div className="absolute top-32 -right-16 w-56 h-56 bg-kuning-tua/15 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
-        <div className="absolute top-[320px] left-1/2 -translate-x-1/2 w-64 h-64 bg-hijau-butek/30 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+    <section className="relative w-full bg-hijau-butek overflow-hidden" aria-label="Hero Soirée Dansante">
+      {/* Background Gambar Panggung Festival (main-stage-mockup.png) */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <img
+          src={mainStageMockup}
+          alt=""
+          aria-hidden="true"
+          className="w-full h-full object-cover object-center select-none"
+        />
+        {/* Lapisan Warna Hijau Butek agar Selaras Palet Tema */}
+        <div className="absolute inset-0 bg-hijau-butek/75 mix-blend-multiply" />
+        {/* Lapisan Gradient Gelap untuk Mempertahankan Kontras Teks */}
+        <div className="absolute inset-0 bg-gradient-to-b from-hijau-butek/85 via-hijau-butek/75 to-hijau-butek/95" />
+      </div>
 
-        {/* Pill Tagline Teratas */}
-        <div className="font-dm-sans relative z-10 inline-flex items-center gap-3 px-5 sm:px-6 py-2.5 rounded-full bg-dark-teal shadow-[2.5px_3px_0_var(--color-ungu-heading)] mb-5">
-          <HiSparkles className="w-4 h-4 text-kuning-muda shrink-0" aria-hidden="true" />
-          <div className="flex flex-col text-center font-black text-kuning-muda tracking-wider uppercase text-[11px] leading-tight">
-            {HERO_DATA.badgeCategoryLines.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </div>
-          <span className="text-cream-tengah font-bold select-none">•</span>
-          <div className="flex flex-col text-center italic text-cream-tengah text-xs sm:text-[13px] leading-tight">
-            {HERO_DATA.badgeTaglineLines.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </div>
+      {/* Ornamen Sparkle Kiri Atas */}
+      <span
+        className="absolute top-8 left-4 sm:left-8 md:left-14 text-kuning-tua text-xl sm:text-2xl select-none pointer-events-none z-20"
+        aria-hidden="true"
+      >
+        ✦
+      </span>
+
+      {/* Ornamen Kucing Bersayap Kanan Atas */}
+      <div className="absolute top-4 sm:top-6 right-3 sm:right-6 md:right-12 z-20 pointer-events-none select-none">
+        <img
+          src={wingedCat}
+          alt=""
+          aria-hidden="true"
+          className="w-14 sm:w-20 md:w-24 lg:w-28 object-contain drop-shadow-md"
+        />
+      </div>
+
+      {/* Ornamen Pasangan Kucing Bersulang Kiri Bawah */}
+      <div className="hidden sm:block absolute bottom-12 sm:bottom-16 left-3 sm:left-6 md:left-10 lg:left-14 z-20 pointer-events-none select-none">
+        <img
+          src={toastingCats}
+          alt=""
+          aria-hidden="true"
+          className="w-16 sm:w-20 md:w-24 lg:w-28 object-contain drop-shadow-lg"
+        />
+      </div>
+
+      {/* Ornamen Bintang Pink Kanan Bawah */}
+      <span
+        className="absolute bottom-12 sm:bottom-16 right-4 sm:right-8 md:right-14 text-pink-custom text-xl sm:text-2xl select-none pointer-events-none z-20"
+        aria-hidden="true"
+      >
+        ★
+      </span>
+
+      {/* Container Konten Utama Terpusat */}
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 md:pt-14 pb-8 sm:pb-12 flex flex-col items-center text-center">
+        {/* Pill Presale Teratas */}
+        <div className="inline-flex items-center gap-2 px-4 sm:px-5 py-1.5 rounded-full bg-ungu-heading/90 border border-kuning-tua/60 shadow-[2px_2px_0_var(--color-ungu-heading)] text-kuning-muda font-dm-sans font-bold text-xs sm:text-[13px] tracking-wide mb-5 select-none">
+          <span>{HERO_DATA.presaleBadge}</span>
         </div>
 
-        {/* Judul Hero Mobile: SOIRÉE (Kuning Emas) & DANSANTE (Krem Terang) */}
-        <h1 className="relative z-10 font-fraunces font-black text-[42px] sm:text-5xl uppercase tracking-tight leading-[1.04] mb-6 text-center">
-          <span className="block text-kuning-tua [text-shadow:3px_3px_0_var(--color-ungu-heading)]">
-            {HERO_DATA.titleLine1}
+        {/* Logo Wordmark Utama */}
+        <div className="mb-3 sm:mb-4">
+          <img
+            src={wordmarkLogo}
+            alt="Soirée Dansante"
+            className="w-64 sm:w-80 md:w-[400px] lg:w-[450px] max-w-full h-auto object-contain select-none transition-transform duration-300 hover:scale-[1.02]"
+          />
+        </div>
+
+        {/* Manifesto Divider Bar */}
+        <div className="flex items-center justify-center gap-3 mb-3 select-none" aria-hidden="true">
+          <span className="h-px w-6 sm:w-10 bg-kuning-tua/60" />
+          <span className="font-dm-sans font-black text-[11px] sm:text-xs text-cream-tengah tracking-[0.22em] uppercase">
+            {HERO_DATA.manifestoLabel}
           </span>
-          <span className="block text-cream-terang [text-shadow:3px_3px_0_var(--color-ungu-heading)]">
-            {HERO_DATA.titleLine2}
-          </span>
+          <span className="h-px w-6 sm:w-10 bg-kuning-tua/60" />
+        </div>
+
+        {/* Headline Utama */}
+        <h1 className="font-fraunces font-black text-3xl sm:text-4xl md:text-5xl lg:text-[54px] text-kuning-tua tracking-tight leading-[1.1] mb-2 [text-shadow:3px_3px_0_var(--color-ungu-heading)]">
+          {HERO_DATA.title}
         </h1>
 
-        {/* Pill Info Waktu & Tempat */}
-        <div className="relative z-10 flex items-center justify-between px-6 py-2.5 rounded-full bg-ungu-heading shadow-[2.5px_3px_0_var(--color-kuning-muda)] text-cream-terang mb-6 w-full max-w-[340px]">
-          {/* Kolom Kiri: Tanggal */}
-          <div className="flex items-center gap-2.5 font-dm-sans">
-            <HiOutlineCalendarDays className="w-5 h-5 text-kuning-muda shrink-0 stroke-[1.8]" aria-hidden="true" />
-            <div className="text-center leading-tight">
-              {HERO_DATA.dateLines.map((line) => (
-                <span key={line} className="block text-xs sm:text-[13px] text-cream-terang font-extrabold tracking-wide">
-                  {line}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Separator Tengah: Dot Pink & Pin Map Pink */}
-          <div className="flex items-center gap-1.5 text-pink-custom">
-            <span className="w-1.5 h-1.5 rounded-full bg-pink-custom shrink-0 select-none" />
-            <HiOutlineMapPin className="w-4 h-4 text-pink-custom shrink-0 stroke-[2]" aria-hidden="true" />
-          </div>
-
-          {/* Kolom Kanan: Tempat */}
-          <div className="text-center leading-tight font-dm-sans">
-            {HERO_DATA.venueLines.map((line) => (
-              <span key={line} className="block text-xs sm:text-[13px] text-cream-terang font-extrabold tracking-wide">
-                {line}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Artwork Lingkaran Kucing & Badge Proscenium */}
-        <div className="relative z-10 flex flex-col items-center mb-6">
-          <div className="w-[260px] h-[260px] sm:w-[280px] sm:h-[280px] rounded-full bg-hijau-tua border-[3px] border-ungu-heading p-3 flex items-center justify-center shadow-inner overflow-hidden">
-            <img
-              src={catProscenium}
-              alt={HERO_DATA.artworkLabel}
-              className="w-full h-full object-contain"
-            />
-          </div>
-
-          {/* Badge Proscenium Teater Kucing Ajaib */}
-          <div className="-mt-3.5 z-20 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-cream-terang border-2 border-ungu-heading text-ungu-heading text-xs font-dm-sans font-bold shadow-xs">
-            <span>🎭</span>
-            <span>{HERO_DATA.artworkLabel}</span>
-          </div>
-        </div>
-
-        {/* Tombol CTA AMANKAN TIKETMU SEKARANG */}
-        <Link
-          to={HERO_DATA.ctaLink}
-          className="relative z-10 w-full max-w-[340px] inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-kuning-tua border-2 border-ungu-heading text-ungu-heading font-dm-sans font-black text-sm uppercase tracking-wider shadow-[0_5px_0_var(--color-ungu-heading)] active:translate-y-1 active:shadow-[0_1px_0_var(--color-ungu-heading)] transition-all mb-3"
-        >
-          <svg className="w-5 h-4.5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 4h16a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V6a2 2 0 0 1 2-2zm8 3a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0V8a1 1 0 0 0-1-1zm0 4a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1zm0 4a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1z" />
-          </svg>
-          <span>{HERO_DATA.ctaText}</span>
-        </Link>
-
-        {/* Keterangan Status Presale */}
-        <p className="relative z-10 font-dm-sans text-xs text-cream-tua/90 text-center tracking-wide mb-6">
-          {HERO_DATA.ticketStatus}
+        {/* Tagline Filosofi */}
+        <p className="font-fraunces italic font-medium text-lg sm:text-xl md:text-2xl text-cream-terang mb-3 sm:mb-4">
+          {HERO_DATA.tagline}
         </p>
-      </div>
 
-      {/* ========================================================
-          2. TAMPILAN DESKTOP (Layout 2 Kolom Yang Sudah Ada)
-          ======================================================== */}
-      <div className="hidden md:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 md:pt-14 md:pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Kolom Kiri: Branding, Headline, dan Tombol */}
-          <div className="lg:col-span-6 flex flex-col items-start text-left z-10">
-            <div className="mb-4 sm:mb-6">
-              <img
-                src={logoSoiree}
-                alt="Soirée Dansante"
-                className="w-72 sm:w-80 md:w-[380px] lg:w-[420px] max-w-full h-auto object-contain select-none transition-transform duration-300 hover:scale-[1.02]"
-              />
-            </div>
+        {/* Paragraf Deskripsi */}
+        <p className="max-w-2xl font-dm-sans text-xs sm:text-sm md:text-base text-cream-tua/90 font-normal leading-relaxed mb-6 sm:mb-7">
+          {HERO_DATA.description}
+        </p>
 
-            <h1 className="font-fraunces font-black text-4xl sm:text-5xl md:text-6xl lg:text-[68px] leading-[1.05] tracking-tight text-kuning-tua [text-shadow:3px_3px_0_var(--color-ungu-heading)]">
-              Panggung Setiap<br />Suara
-            </h1>
-
-            <p className="font-fraunces italic font-medium text-lg sm:text-xl md:text-2xl text-cream-tua mt-3 sm:mt-4 mb-6 tracking-wide">
-              {HERO_DATA.tagline}
-            </p>
-
-            <div className="inline-flex items-center gap-2.5 px-4 sm:px-5 py-2 rounded-full bg-cream-tua border-2 border-ungu-heading shadow-sm mb-6 sm:mb-8">
-              <span className="font-dm-sans font-black text-xs sm:text-sm text-ungu-heading tracking-wider uppercase">
-                {HERO_DATA.dates} • {HERO_DATA.venue}
-              </span>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6">
-              <Link
-                to={HERO_DATA.ctaLink}
-                className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 rounded-full bg-kuning-tua border-2 border-ungu-heading text-ungu-heading font-dm-sans font-black text-xs sm:text-sm uppercase tracking-wider hover:bg-kuning-muda hover:scale-[1.02] active:scale-95 transition-all shadow-[0_2px_0_var(--color-ungu-heading)]"
+        {/* 3 Pills Info Festival */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-3.5 mb-6 sm:mb-8">
+          {HERO_DATA.pills.map((pill) => {
+            const Icon = pill.icon;
+            const isPurple = pill.variant === "purple";
+            return (
+              <div
+                key={pill.id}
+                className={`inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full border-2 text-xs sm:text-[13px] font-dm-sans font-black tracking-wider uppercase shadow-[2px_2px_0_var(--color-ungu-heading)] select-none ${
+                  isPurple
+                    ? "bg-ungu-heading border-kuning-tua text-kuning-muda"
+                    : "bg-cream-terang border-ungu-heading text-ungu-heading"
+                }`}
               >
-                <span>{HERO_DATA.ctaDesktopText}</span>
-              </Link>
-
-              <Link
-                to={HERO_DATA.lineupLink}
-                className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 rounded-full bg-transparent border-2 border-cream-tua text-cream-tua font-dm-sans font-black text-xs sm:text-sm uppercase tracking-wider hover:bg-cream-tua/15 hover:scale-[1.02] active:scale-95 transition-all"
-              >
-                <span>{HERO_DATA.lineupText}</span>
-              </Link>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-cream-tua/90 tracking-wide font-medium">
-              <svg className="w-3.5 h-3.5 text-kuning-muda shrink-0" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
-                <path d="M4 10.6667L6.66667 8.63333L9.33333 10.6667L8.33333 7.36667L11 5.46667H7.73333L6.66667 2L5.6 5.46667H2.33333L5 7.36667L4 10.6667Z" />
-              </svg>
-              <span>{HERO_DATA.festivalFact}</span>
-            </div>
-          </div>
-
-          {/* Kolom Kanan: Card Showcase Stage & Ornamen */}
-          <div className="lg:col-span-6 relative mt-4 lg:mt-0">
-            <div className="relative rounded-[22px] sm:rounded-[28px] overflow-hidden border-[3px] border-ungu-heading bg-ungu-heading shadow-2xl transition-transform duration-300 hover:scale-[1.01]">
-              <div className="relative w-full overflow-hidden block">
-                <img
-                  src={stageImage}
-                  alt="Panggung Utama Soirée Dansante Semarang"
-                  className="w-full h-auto object-cover block"
-                />
-                <div className="absolute bottom-0 inset-x-0 px-4 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between bg-ungu-heading/80 backdrop-blur-[1.5px]">
-                  <span className="font-dm-sans font-extrabold text-[11px] sm:text-xs tracking-wider text-cream-tua uppercase">
-                    PANGGUNG UTAMA • CAT PROSCENIUM
-                  </span>
-                  <span className="font-dm-sans font-medium text-[11px] sm:text-xs text-cream-tua/90">
-                    {HERO_DATA.venue}
-                  </span>
-                </div>
+                <Icon className="w-4 h-4 shrink-0 stroke-[2.2]" aria-hidden="true" />
+                <span>{pill.text}</span>
               </div>
-            </div>
+            );
+          })}
+        </div>
 
-            <div className="absolute -top-6 -right-6 sm:-top-8 sm:-right-8 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 z-20 pointer-events-none drop-shadow-xl select-none">
-              <img src={ornamenEye} alt="Sacred Eye Ornament" className="w-full h-full object-contain" />
-            </div>
-          </div>
+        {/* Barisan Tombol CTA Aksi */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-sm sm:max-w-none mb-7 sm:mb-8">
+          <Link
+            to={HERO_DATA.ctaTicket.to}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 sm:px-8 py-3.5 rounded-full bg-kuning-tua border-2 border-ungu-heading text-ungu-heading font-dm-sans font-black text-xs sm:text-sm uppercase tracking-wider shadow-[0_3px_0_var(--color-ungu-heading)] hover:bg-kuning-muda hover:scale-[1.02] active:scale-95 transition-all select-none"
+          >
+            <LuTicket className="w-4.5 h-4.5 shrink-0 stroke-[2.5]" aria-hidden="true" />
+            <span>{HERO_DATA.ctaTicket.text}</span>
+          </Link>
+
+          <Link
+            to={HERO_DATA.ctaLineup.to}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 sm:px-8 py-3.5 rounded-full bg-ungu-heading/90 border-2 border-kuning-tua text-kuning-muda font-dm-sans font-black text-xs sm:text-sm uppercase tracking-wider shadow-[0_3px_0_var(--color-ungu-heading)] hover:bg-ungu-heading hover:scale-[1.02] active:scale-95 transition-all select-none"
+          >
+            <LuCompass className="w-4.5 h-4.5 shrink-0 stroke-[2.5]" aria-hidden="true" />
+            <span>{HERO_DATA.ctaLineup.text}</span>
+          </Link>
+        </div>
+
+        {/* Strip Highlight Statistik Festival */}
+        <div className="w-full max-w-2xl bg-ungu-heading/85 border border-kuning-tua/50 rounded-2xl sm:rounded-full px-5 sm:px-7 py-3 shadow-[0_4px_12px_rgba(0,0,0,0.25)] flex flex-col sm:flex-row items-center justify-around sm:justify-between text-xs sm:text-[13px] font-dm-sans font-bold text-cream-tua gap-2.5 sm:gap-4 select-none">
+          {HERO_DATA.stats.map((stat, idx) => {
+            const Icon = stat.icon;
+            return (
+              <div key={stat.id} className="flex items-center gap-2">
+                <Icon className="w-4 h-4 text-kuning-muda shrink-0 stroke-[2.2]" aria-hidden="true" />
+                <span>{stat.text}</span>
+                {idx < HERO_DATA.stats.length - 1 && (
+                  <span className="hidden sm:inline-block ml-4 text-kuning-tua/50 select-none" aria-hidden="true">
+                    •
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Titik Lampu Dekoratif Bawah */}
+        <div className="flex items-center justify-center gap-6 sm:gap-10 md:gap-16 mt-6 sm:mt-8 select-none pointer-events-none" aria-hidden="true">
+          <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-kuning-tua/70 shadow-[0_0_8px_var(--color-kuning-tua)]" />
+          <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-pink-custom/70 shadow-[0_0_8px_var(--color-pink-custom)]" />
+          <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-kuning-tua/70 shadow-[0_0_8px_var(--color-kuning-tua)]" />
+          <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-pink-custom/70 shadow-[0_0_8px_var(--color-pink-custom)]" />
+          <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-kuning-tua/70 shadow-[0_0_8px_var(--color-kuning-tua)]" />
         </div>
       </div>
 
-      {/* Pemisah Section Bawah */}
+      {/* Pembatas Bawah Section Pita Catur */}
       <SectionDivider />
     </section>
   );
