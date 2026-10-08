@@ -128,21 +128,6 @@ export default function RoadmapTimeline() {
 
   return (
     <section id="roadmap-timeline" className="relative w-full bg-cream-terang py-16 sm:py-20 md:py-24 overflow-hidden">
-      {/* Label Sudut Bergaya Vintage Sesuai Desain */}
-      <div
-        className="absolute top-6 left-4 sm:left-6 lg:left-8 px-1 py-2 bg-kuning-tua/90 border border-ungu-heading/50 rounded text-[9px] font-mono font-bold text-ungu-heading [writing-mode:vertical-lr] tracking-widest select-none shadow-2xs pointer-events-none"
-        aria-hidden="true"
-      >
-        SD-2027
-      </div>
-
-      <div
-        className="absolute bottom-8 right-4 sm:right-6 lg:right-8 px-1 py-2 bg-kuning-tua/90 border border-ungu-heading/50 rounded text-[9px] font-mono font-bold text-ungu-heading [writing-mode:vertical-lr] tracking-widest select-none shadow-2xs pointer-events-none"
-        aria-hidden="true"
-      >
-        SD-2027
-      </div>
-
       {/* Container utama dengan lebar sejajar persis seperti Navbar (max-w-7xl) */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Garis Kolom Pita Belang Diagonal Tengah */}
