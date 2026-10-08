@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
-import logoNavbar from "../assets/images/navbar/logo-navbar.png";
-import edanAvatar from "../assets/images/navbar/profile-678.png";
+import soireeLogo from "../assets/images/navbar/soiree-logo.png";
 
 export default function Navbar() {
   const location = useLocation();
@@ -38,20 +37,12 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full bg-hijau-butek border-b-[3px] border-ungu-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Left: Brand / Logo */}
-        <Link to="/" onClick={() => handleNavClick("/")} className="flex items-center gap-3 group">
+        <Link to="/" onClick={() => handleNavClick("/")} className="flex items-center group py-1.5">
           <img
-            src={logoNavbar}
-            alt="Soirée Dansante Logo"
-            className="hidden sm:block w-10 h-10 md:w-11 md:h-11 object-contain shrink-0 group-hover:scale-105 transition-transform"
+            src={soireeLogo}
+            alt="Soirée Dansante"
+            className="h-10 sm:h-12 md:h-13 w-auto object-contain group-hover:scale-105 transition-transform"
           />
-          <div className="flex flex-col">
-            <span className="font-fraunces text-2xl sm:text-lg md:text-xl font-bold text-cream-tua leading-tight tracking-tight">
-              Soirée Dansante
-            </span>
-            <span className="hidden sm:block font-dm-sans text-[10px] md:text-[11px] font-bold text-cream-tua/80 tracking-[0.22em] uppercase leading-tight">
-              SEMARANG 2027
-            </span>
-          </div>
         </Link>
 
         {/* Center: Desktop Navigation Links */}
